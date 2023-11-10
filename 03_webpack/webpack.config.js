@@ -71,9 +71,11 @@ module.exports = {
     // 사용하는 파일이나 폴더 이름이 다르다면 변경해주세요.
     // 그대로 사용할 파일들이 없다면 CopyWebpackPlugin을 통째로 주석 처리 해주세요.
     new CopyWebpackPlugin({
+      // 아래 작성한 파일이 존재하지 않으면 에러 발생 주의하기
+      // 사용하지 않을 때 주석 처리하기
       patterns: [
-        { from: "./src/main.css", to: "./main.css" },
-        { from: "./src/images", to: "./images" }
+        { from: "./src/main.css", to: "./main.css" }
+        // { from: "./src/images", to: "./images" }
       ]
     })
   ]

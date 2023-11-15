@@ -6,7 +6,15 @@ import * as THREE from "three";
 // console.log("📢 [renderer의 캔버스 사이즈 확인]", renderer.domElement);
 // document.body.appendChild(renderer.domElement);
 
-/** [설명] 1. 동적으로 캔버스 조합하기 
+/* 2. html에 캔버스 미리 만들기 */
+const canvas = document.querySelector("#three-canvas");
+const renderer = new THREE.WebGLRenderer({ canvas });
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+/** 
+ * 
+ * 
+** [설명] 1. 동적으로 캔버스 조합하기 
 // console.log("📢 THREE", THREE);
 
 // renderer 만들기 :  renderer가 화면에 그림을 그려주는 역할을 한다.
@@ -20,14 +28,9 @@ console.log("📢 [renderer의 캔버스 사이즈 확인]", renderer.domElement
 
 // document.body에 조립하기
 document.body.appendChild(renderer.domElement);
- */
-
-/* 2. html에 캔버스 미리 만들기 */
-const canvas = document.querySelector("#three-canvas");
-const renderer = new THREE.WebGLRenderer({ canvas });
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-/** [설명] 2. html에 캔버스 미리 만들기
+ * 
+ * 
+ ** [설명] 2. html에 캔버스 미리 만들기
  // html의 캔버스 태그 가져오기
 const canvas = document.querySelector("#three-canvas");
 
@@ -38,4 +41,6 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // document.body.appendChild는 하지 않아도 됨 이미 html에 캔버스 태그를 만들어 놨기 때문;
+ * 
+ * 
 */

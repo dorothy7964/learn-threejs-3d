@@ -1,3 +1,10 @@
 body {
   margin: 0;
 }
+
+/* 스크롤 방지를 위함 */
+#three-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

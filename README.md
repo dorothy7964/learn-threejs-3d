@@ -16,5 +16,5 @@
 
 04_basic-threejs
 
-- 기본 장면 만들기
+- 기본 장면 만들기 (Scene, Camera, Mesh)
 - reademe.txt에 있는 패키지 설치 하기

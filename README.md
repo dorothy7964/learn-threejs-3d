@@ -16,5 +16,6 @@
 
 04_basic-threejs
 
-- 기본 장면 만들기 (Scene, Camera, Mesh)
 - reademe.txt에 있는 패키지 설치 하기
+- ex01_basic : 기본 장면 만들기 (Scene, Camera, Mesh)
+- ex02_browserSize : 브라우저 창 사이즈 변경에 대응하기

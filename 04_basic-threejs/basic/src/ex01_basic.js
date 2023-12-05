@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+/* 주제: 기본 장면 */
+
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
   const canvas = document.querySelector("#three-canvas");

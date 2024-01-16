@@ -19,3 +19,4 @@
 - reademe.txt에 있는 패키지 설치 하기
 - ex01_basic : 기본 장면 만들기 (Scene, Camera, Mesh)
 - ex02_browserSize : 브라우저 창 사이즈 변경에 대응하기
+- ex03_backgroundColor : 배경색, 투명도 설정하기

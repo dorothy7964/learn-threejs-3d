@@ -7,7 +7,8 @@ export default function example() {
   const canvas = document.querySelector("#three-canvas");
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: true
+    antialias: true,
+    alpha: true // 배경 투명도 설정
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -15,8 +16,15 @@ export default function example() {
   // console.log("📢 [ex02_browserSize.js:16]", window.devicePixelRatio); // 픽셀 해상도의 비율을 나타내는 배정밀도 부동 소수점 값 확인
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
+  /*  배경색, 투명화 설정 */
+  // renderer.setClearAlpha(0.5); // 불투명도 설정
+  // renderer.setClearColor(0x00ff00);
+  // renderer.setClearColor('#00ff00');
+  // renderer.setClearAlpha(0.5);
+
   /*  Scene 만들기 */
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color("blue");
 
   /*  Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(

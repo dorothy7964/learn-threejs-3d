@@ -1,5 +1,8 @@
 body {
   margin: 0;
+
+  /* 배경 투명도 확인하기 위함 */
+  /* background: mediumseagreen; */
 }
 
 /* 스크롤 방지를 위함 */

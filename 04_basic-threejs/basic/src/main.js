@@ -4,5 +4,6 @@
 // import example from "./ex04_light";
 // import example from "./ex05_animationBasic";
 import example from "./ex06_animationPerformance";
+// import example from "./ex06-02_animationPerformance";
 
 example();

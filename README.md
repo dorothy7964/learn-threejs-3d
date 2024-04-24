@@ -27,3 +27,4 @@
 - ex06_animationPerformance : 애니메이션 성능 보정
 - ex06-02-animationPerformance : 애니메이션 성능 보정 (자바스크립트 내장 기능 이용)
 - ex07_fog : 안개
+- ex08_libraryAnimation : 라이브러리를 이용한 애니메이션

@@ -6,6 +6,7 @@
 // import example from "./ex06_animationPerformance";
 // import example from "./ex06-02_animationPerformance";
 // import example from "./ex06-02_animationPerformance";
-import example from "./ex07_fog";
+// import example from "./ex07_fog";
+import example from "./ex08_libraryAnimation";
 
 example();

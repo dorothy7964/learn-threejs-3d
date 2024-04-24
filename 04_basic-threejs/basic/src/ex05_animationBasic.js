@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-/* 주제:  애니메이션 기본 */
+/* 주제: 애니메이션 기본 */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */

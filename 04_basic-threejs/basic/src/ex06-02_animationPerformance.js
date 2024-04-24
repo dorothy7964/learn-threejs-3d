@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-/* 주제:  애니메이션 성능 보정 (자바스크립트 내장 기능 이용)*/
+/* 주제: 애니메이션 성능 보정 (자바스크립트 내장 기능 이용) */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */

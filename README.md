@@ -26,3 +26,4 @@
 - ex05_animationBasic : 애니메이션 기본
 - ex06_animationPerformance : 애니메이션 성능 보정
 - ex06-02-animationPerformance : 애니메이션 성능 보정 (자바스크립트 내장 기능 이용)
+- ex07_fog : 안개

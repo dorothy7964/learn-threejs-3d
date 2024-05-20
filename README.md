@@ -37,3 +37,4 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_visualGuide : AxesHelper - 축, GridHelper - 격자무늬
+- ex02_FPS : 초당 프레임 수(FPS) 체크하기

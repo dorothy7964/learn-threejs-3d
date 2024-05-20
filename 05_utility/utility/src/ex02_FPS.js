@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import Stats from "stats.js";
 
-// ----- 주제: 초당 프레임 수(FPS) 체크하기
+/* 주제: 초당 프레임 수(FPS) 체크하기 */
 
 export default function example() {
-  // Renderer
+  /* Renderer 만들기 : html에 캔버스 미리 만들기 */
   const canvas = document.querySelector("#three-canvas");
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -13,10 +13,10 @@ export default function example() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-  // Scene
+  /* Scene 만들기 */
   const scene = new THREE.Scene();
 
-  // Camera
+  /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -28,7 +28,7 @@ export default function example() {
   camera.position.z = 5;
   scene.add(camera);
 
-  // Light
+  /* Light 만들기 */
   const ambientLight = new THREE.AmbientLight("white", 0.5);
   scene.add(ambientLight);
 
@@ -37,7 +37,7 @@ export default function example() {
   directionalLight.position.z = 2;
   scene.add(directionalLight);
 
-  // Mesh
+  /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshStandardMaterial({
     color: "seagreen"
@@ -45,11 +45,11 @@ export default function example() {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  // Stats
+  /* 초당 프레임 수(FPS) 체크 : Stats */
   const stats = new Stats();
   document.body.append(stats.domElement);
 
-  // 그리기
+  /* 그리기 */
   const clock = new THREE.Clock();
 
   function draw() {
@@ -71,7 +71,7 @@ export default function example() {
     renderer.render(scene, camera);
   }
 
-  // 이벤트
+  /* 이벤트 */
   window.addEventListener("resize", setSize);
 
   draw();

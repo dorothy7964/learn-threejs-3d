@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import dat from "dat.gui";
 
-/* 주제: GUI 컨트롤 */
+/* 주제: 위치 이동 (position) */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -23,9 +23,8 @@ export default function example() {
     0.1,
     1000
   );
-
-  camera.position.y = 1;
-  camera.position.z = 5;
+  camera.position.y = 1.5;
+  camera.position.z = 4;
   scene.add(camera);
 
   /* Light 만들기 */
@@ -45,30 +44,28 @@ export default function example() {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  /* AxesHelper 만들기 */
+  const axesHelper = new THREE.AxesHelper(3);
+  scene.add(axesHelper);
+
   /* Dat GUI 만들기 */
   const gui = new dat.GUI();
-  // 자바스크립트 오브젝트의 속성 값을 그래픽 기반의 UI로 조정할 수 있다.
-  // gui.add(자바스크립트 오브젝트, "속성", 범위 최소값, 범위 최대값, 단계).name("레이블 이름");
-  gui.add(mesh.position, "y", -5, 5, 0.01).name("큐브 Y");
-  gui.add(camera.position, "x", -10, 10, 0.01).name("카메라 X");
-  // gui
-  // 	.add(mesh.position, 'z')
-  // 	.min(-10)
-  // 	.max(3)
-  // 	.step(0.01)
-  // 	.name('메쉬의 Z 위치');
-
-  camera.lookAt(mesh.position);
+  gui.add(camera.position, "x", -5, 5, 0.1).name("카메라 X");
+  gui.add(camera.position, "y", -5, 5, 0.1).name("카메라 Y");
+  gui.add(camera.position, "z", 2, 10, 0.1).name("카메라 Z");
 
   /* 그리기 */
   const clock = new THREE.Clock();
 
   function draw() {
-    const time = clock.getElapsedTime();
+    const delta = clock.getDelta();
 
-    mesh.rotation.y = time;
+    // mesh.position.y = 2;
+    mesh.position.set(-1, 0, 0);
 
-    camera.lookAt(mesh.position);
+    // console.log( mesh.position.length() );
+    // console.log( mesh.position.distanceTo(new THREE.Vector3(1, 2, 0)) );
+    // console.log( mesh.position.distanceTo(camera.position) );
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

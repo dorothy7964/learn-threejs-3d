@@ -11,13 +11,13 @@ export default function example() {
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  /*  디바이스 픽셀 비율을 설정 */
+  /* 디바이스 픽셀 비율을 설정 */
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
   /*  Scene 만들기 */
   const scene = new THREE.Scene();
 
-  /*  Camera 만들기 */
+  /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
     75, // 시야각 (field of view)
     window.innerWidth / window.innerHeight, // 종횡비(aspect)
@@ -27,13 +27,13 @@ export default function example() {
   camera.position.z = 5;
   scene.add(camera);
 
-  /*  Light 만들기 */
+  /* Light 만들기 */
   const light = new THREE.DirectionalLight(0xffffff, 2);
   light.position.x = 2;
   light.position.z = 2;
   scene.add(light);
 
-  /*  Messh 만들기 */
+  /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshStandardMaterial({
     // MeshBasicMaterial는 빛의 영향을 받지 않아 조명이 없어도 보인다.
@@ -46,7 +46,7 @@ export default function example() {
   /*  애니메이션 성능 보정 */
   let oldTime = Date.now();
 
-  /*  그리기 */
+  /* 그리기 */
   function draw() {
     // 애니메이션 추가
 
@@ -81,7 +81,7 @@ export default function example() {
     renderer.render(scene, camera);
   }
 
-  /*  이벤트 */
+  /* 이벤트 */
   window.addEventListener("resize", setSize);
 
   draw();

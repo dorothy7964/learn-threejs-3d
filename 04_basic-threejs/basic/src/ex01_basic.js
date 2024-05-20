@@ -14,7 +14,7 @@ export default function example() {
   /*  Scene 만들기 */
   const scene = new THREE.Scene();
 
-  /*  Camera 만들기 */
+  /* Camera 만들기 */
   // const camera = new THREE.PerspectiveCamera(
   //   75, // 시야각 (field of view)
   //   window.innerWidth / window.innerHeight, // 종횡비(aspect)
@@ -42,7 +42,7 @@ export default function example() {
   camera.zoom = 0.5; // 기본값은 `1` 이다.
   camera.updateProjectionMatrix(); // 카메라 투영에 관련된 값에 변화가 있을 경우 실행해야 함
 
-  /*  Messh 만들기 */
+  /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(1, 1, 1); // 직육면체 모양 만들기 BoxGeometry(1m, 1m, 1m)
   const material = new THREE.MeshBasicMaterial({
     // MeshBasicMaterial는 빛의 영향을 받지 않아 조명이 없어도 보인다.

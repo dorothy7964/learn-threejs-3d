@@ -39,3 +39,11 @@
 - ex01_visualGuide : AxesHelper - 축, GridHelper - 격자무늬
 - ex02_FPS : 초당 프레임 수(FPS) 체크하기
 - ex03_GUI : GUI 컨트롤
+
+06_transform
+
+    참고 : 06_transform/transform/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기
+
+- ex01_position : 위치 이동

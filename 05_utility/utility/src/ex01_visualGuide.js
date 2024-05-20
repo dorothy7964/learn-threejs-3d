@@ -1,9 +1,9 @@
 import * as THREE from "three";
 
-// ----- 주제: AxesHelper, GridHelper
+/* 주제: AxesHelper, GridHelper */
 
 export default function example() {
-  // Renderer
+  /* Renderer 만들기 : html에 캔버스 미리 만들기 */
   const canvas = document.querySelector("#three-canvas");
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -12,10 +12,10 @@ export default function example() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-  // Scene
+  /* Scene 만들기 */
   const scene = new THREE.Scene();
 
-  // Camera
+  /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -27,7 +27,7 @@ export default function example() {
   camera.position.z = 0;
   scene.add(camera);
 
-  // Light
+  /* Light 만들기 */
   const ambientLight = new THREE.AmbientLight("white", 0.5);
   scene.add(ambientLight);
 
@@ -36,11 +36,11 @@ export default function example() {
   directionalLight.position.z = 2;
   scene.add(directionalLight);
 
-  // AxesHelper
+  /* AxesHelper 만들기 */
   const axesHelper = new THREE.AxesHelper(3);
   scene.add(axesHelper);
 
-  // GridHelper
+  /* GridHelper */
   const gridHelper = new THREE.GridHelper(5);
   scene.add(gridHelper);
 
@@ -56,7 +56,7 @@ export default function example() {
   // 카메라가 위에서 Mesh를 바라보는 위치로 설정
   camera.lookAt(mesh.position);
 
-  // 그리기
+  /* 그리기 */
   const clock = new THREE.Clock();
 
   function draw() {
@@ -75,7 +75,7 @@ export default function example() {
     renderer.render(scene, camera);
   }
 
-  // 이벤트
+  /* 이벤트 */
   window.addEventListener("resize", setSize);
 
   draw();

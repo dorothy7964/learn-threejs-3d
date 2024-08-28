@@ -47,3 +47,4 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_position : 위치 이동
+- ex02_scale : 크기 조정

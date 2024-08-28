@@ -50,3 +50,9 @@
 - ex02_scale : 크기 조정
 - ex03_rotation : 회전
 - ex04_scene_graph : 그룹 만들기
+
+07_geometry
+
+    참고 : 07_geometry/transform/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기

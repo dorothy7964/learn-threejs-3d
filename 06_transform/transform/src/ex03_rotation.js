@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import dat from "dat.gui";
 
-/* 주제: 크기 조정 (scale) */
+/* 주제: 회천 (rotation) */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -23,7 +23,7 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.y = 1.5;
+  camera.position.y = 0;
   camera.position.z = 4;
   scene.add(camera);
 
@@ -57,12 +57,18 @@ export default function example() {
   /* 그리기 */
   const clock = new THREE.Clock();
 
+  /* 회전 */
+  mesh.rotation.reorder("YXZ"); // 회전 순서 정의
+  mesh.rotation.y = THREE.MathUtils.degToRad(45);
+  mesh.rotation.x = THREE.MathUtils.degToRad(20);
+
   function draw() {
     const delta = clock.getDelta();
 
-    // mesh.scale.x = 2;
-    // mesh.scale.y = 0.5;
-    mesh.scale.set(0.5, 1, 2);
+    // mesh.rotation.x = THREE.MathUtils.degToRad(45);
+    // mesh.rotation.x = Math.PI / 4;
+    // mesh.rotation.x = 1;
+    // mesh.rotation.z += delta;
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

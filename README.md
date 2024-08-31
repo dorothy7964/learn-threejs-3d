@@ -53,6 +53,9 @@
 
 07_geometry
 
-    참고 : 07_geometry/transform/src/main.js 에서 예제 주석 처리
+    참고 : 07_geometry/geometry/src/main.js 에서 예제 주석 처리
 
     reademe.txt에 있는 패키지 설치 하기
+
+- ex01_basic_geometry : 여러가지 Geometry 살펴보기
+- ex02_geometry_vertex : Geometry 정점(Vertex) position 이용하기

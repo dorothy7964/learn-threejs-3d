@@ -1,6 +1,7 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-/* 주제: 기본 구조 */
+/* 주제: Geometry 기본 */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -34,10 +35,15 @@ export default function example() {
   directionalLight.position.z = 2;
   scene.add(directionalLight);
 
+  /* Controls 만들기 */
+  new OrbitControls(camera, renderer.domElement); // 마우스를 이용해  3D 객체를 회전, 확대, 축소 가능
+
   /* Messh 만들기 */
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // Segments가 적용된 박스
   const material = new THREE.MeshStandardMaterial({
-    color: "seagreen"
+    color: "seagreen",
+    side: THREE.DoubleSide, // 객체의 표면이 양면에서 렌더링
+    wireframe: true // 표면이 실선으로만 표현
   });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);

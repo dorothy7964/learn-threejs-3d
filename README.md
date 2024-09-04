@@ -66,4 +66,6 @@
 
     reademe.txt에 있는 패키지 설치 하기
 
-- ex01_orbitControls : 카메라를 중심으로 궤도를 돌듯이 이동하며 카메라의 시점을 마우스나 터치 입력을 통해 사용자가 직관적으로 조작할 수 있게 해주는 컨트롤
+- ex01_orbitControls : 카메라를 중심으로 궤도를 돌듯이 이동하며 특정 대상에 초점을 맞추고 안정적으로 관찰할 수 있는 컨트롤
+
+- ex02_trackballControls : orbitControls보다 더 자유로운 3D 탐색할 수 있는 컨트롤

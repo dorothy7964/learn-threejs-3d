@@ -77,3 +77,5 @@
 - ex05_pointerLockControls : PointerLock API를 사용하여 마우스 커서를 화면에서 숨기고 사용자가 마우스를 움직이는 방향에 따라 카메라의 시점을 변경해주는 컨트롤
 
 - ex06_dragControls : 우스를 사용해 오브젝트를 드래그하고 이동할 수 있도록 해주는 컨트롤
+
+- ex07_minecraftControls : 다양한 입력 장치의 설정, PointerLockControls에 키보드 컨트롤 추가

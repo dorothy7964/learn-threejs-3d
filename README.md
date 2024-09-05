@@ -79,3 +79,11 @@
 - ex06_dragControls : 우스를 사용해 오브젝트를 드래그하고 이동할 수 있도록 해주는 컨트롤
 
 - ex07_minecraftControls : 다양한 입력 장치의 설정, PointerLockControls에 키보드 컨트롤 추가
+
+09_material
+
+    참고 : 09_material/material/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기
+
+- ex01_meshBasicMaterial : 작성

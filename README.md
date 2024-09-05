@@ -73,3 +73,5 @@
 - ex03_flyControls : 자유롭게 3D 공간을 비행하듯이 움직일 수 있는 컨트롤
 
 - ex04_firstPersonControls : 1인칭 시점에서 자유롭게 카메라 컨트롤, Fly Controls의 대체 구현
+
+- ex05_pointerLockControls : PointerLock API를 사용하여 마우스 커서를 화면에서 숨기고 사용자가 마우스를 움직이는 방향에 따라 카메라의 시점을 변경해주는 컨트롤러

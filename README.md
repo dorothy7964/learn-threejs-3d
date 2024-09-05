@@ -71,3 +71,5 @@
 - ex02_trackballControls : orbitControls보다 더 자유로운 3D 탐색할 수 있는 컨트롤
 
 - ex03_flyControls : 자유롭게 3D 공간을 비행하듯이 움직일 수 있는 컨트롤
+
+- ex04_firstPersonControls : 1인칭 시점에서 자유롭게 카메라 컨트롤, Fly Controls의 대체 구현

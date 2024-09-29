@@ -99,5 +99,8 @@
 - ex01_meshBasicMaterial : Three.js에서 자주 사용되는 재질 중 하나이고 조명 영향을 받지 않는 것이 특징이다. 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.
 
 - ex02_meshLambertMaterial_meshPhongMaterial : 두 재질은 3D 객체의 표면에 어떻게 빛이 반사되고 표현될지를 결정해 준다.
+
   - MeshLambertMaterial - 하이라이트, 반사광 없는 재질
   - MeshPhongMaterial -하이라이트, 반사광 표현 가능
+
+- ex03_meshStandardMaterial : MeshPhongMaterial는 덜 사실적인 반면 MeshStandardMaterial는 고품질의 사실적인 렌더링을 한다.

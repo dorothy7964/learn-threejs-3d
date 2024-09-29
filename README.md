@@ -1,3 +1,13 @@
+## Local
+
+- http://localhost:8080/
+  <br/><br/>
+
+## Node
+
+- 20.12.2 사용 중
+  <br/><br/>
+
 ## 폴더 설명
 
 01_nomal
@@ -86,4 +96,4 @@
 
     reademe.txt에 있는 패키지 설치 하기
 
-- ex01_meshBasicMaterial : 작성
+- ex01_meshBasicMaterial : Three.js에서 자주 사용되는 재질 중 하나이고 조명 영향을 받지 않는 것이 특징이다. 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.

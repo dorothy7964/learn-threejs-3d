@@ -28,13 +28,9 @@ export default function example() {
   scene.add(camera);
 
   /* Light 만들기 */
-  const ambientLight = new THREE.AmbientLight("white", 0.5);
-  scene.add(ambientLight);
+// MeshBasicMaterial은 조명이 필요 없다
+// 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.
 
-  const directionalLight = new THREE.DirectionalLight("white", 1);
-  directionalLight.position.x = 1;
-  directionalLight.position.z = 2;
-  scene.add(directionalLight);
 
   /* Controls 만들기 */
   new OrbitControls(camera, renderer.domElement);

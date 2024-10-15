@@ -105,4 +105,6 @@
 
 - ex03_meshStandardMaterial : MeshPhongMaterial는 덜 사실적인 반면 MeshStandardMaterial는 고품질의 사실적인 렌더링을 한다.
 
-- ex04_flatShading : 각지게 표현
+- ex04_flatShading : flatShading, 각지게 표현
+
+- ex05_side : side, Mesh의 앞 뒷면

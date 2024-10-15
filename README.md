@@ -104,3 +104,5 @@
   - MeshPhongMaterial -하이라이트, 반사광 표현 가능
 
 - ex03_meshStandardMaterial : MeshPhongMaterial는 덜 사실적인 반면 MeshStandardMaterial는 고품질의 사실적인 렌더링을 한다.
+
+- ex04_flatShading : 각지게 표현

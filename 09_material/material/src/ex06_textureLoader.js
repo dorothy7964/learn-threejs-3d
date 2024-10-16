@@ -3,21 +3,33 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 /* 주제: 텍스쳐 이미지 로드하기 */
 
+const onLoad = () => {
+  console.log("로드 완료");
+};
+
+const onProgress = () => {
+  console.log("로드 중");
+};
+
+const onError = () => {
+  console.log("로드 에러");
+};
+
 export default function example() {
   /* 텍스쳐 이미지 로드 */
   // 주의 : webpack.config.js파일 CopyWebpackPlugin에서 textures의 경로 설정이 되었는지 체크하기
   const textureLoader = new THREE.TextureLoader();
-  const texture = textureLoader.load(
+  const frontTexture = textureLoader.load(
     "/textures/watermelon/Watermelon_001_basecolor.jpg",
-    () => {
-      console.log("로드 완료");
-    },
-    () => {
-      console.log("로드 중");
-    },
-    () => {
-      console.log("로드 에러");
-    }
+    onLoad, // 로드 완료 시 호출
+    onProgress, // 로드 중일 때 호출
+    onError // 로드 에러 시 호출
+  );
+  const backTexture = textureLoader.load(
+    "/textures/watermelon/Watermelon_001_roughness.jpg",
+    onLoad, // 로드 완료 시 호출
+    onProgress, // 로드 중일 때 호출
+    onError // 로드 에러 시 호출
   );
 
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -40,8 +52,7 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.y = 1.5;
-  camera.position.z = 4;
+  camera.position.set(0, 1.5, 4);
   scene.add(camera);
 
   /* Light 만들기 */
@@ -55,14 +66,43 @@ export default function example() {
 
   /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(2, 2, 2);
+
   // MeshBasicMaterial는 조명이나 그림자의 영향을 받지 않는다.
-  // const material = new THREE.MeshBasicMaterial({
-  const material = new THREE.MeshStandardMaterial({
-    // color: 'orangered',
-    map: texture
+  // material 배열 생성, 앞면과 뒷면에 다른 텍스처 적용
+
+  // 외부 면
+  const frontMaterial = new THREE.MeshStandardMaterial({ map: frontTexture });
+  const outsideMaterials = [
+    frontMaterial, // 오른쪽 면 (x+)
+    frontMaterial, // 왼쪽 면 (x-)
+    frontMaterial, // 위쪽 면 (y+)
+    frontMaterial, // 아래쪽 면 (y-)
+    frontMaterial, // 앞면 (z+)
+    frontMaterial // 뒷면 (z-)
+  ];
+
+  // 내부 면
+  const backMaterial = new THREE.MeshStandardMaterial({
+    // map: backTexture,
+    color: "red",
+    side: THREE.BackSide
   });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  const insideMaterials = [
+    backMaterial, // 오른쪽 면 (x+)
+    backMaterial, // 왼쪽 면 (x-)
+    backMaterial, // 위쪽 면 (y+)
+    backMaterial, // 아래쪽 면 (y-)
+    backMaterial, // 앞면 (z+)
+    backMaterial // 뒷면 (z-)
+  ];
+
+  // 두 개의 정육면체를 생성
+  const outsideMesh = new THREE.Mesh(geometry, outsideMaterials);
+  const insideMesh = new THREE.Mesh(geometry, insideMaterials);
+
+  // 두 정육면체를 씬에 추가
+  scene.add(outsideMesh);
+  scene.add(insideMesh);
 
   /* 그리기 */
   const clock = new THREE.Clock();

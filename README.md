@@ -110,3 +110,5 @@
 - ex05_side : side, Mesh의 앞 뒷면
 
 - ex06_textureLoader : 텍스쳐 이미지 로드하기
+
+- ex07_loadingManager : 로딩 매니저 (여러개의 텍스쳐 이미지)

@@ -114,3 +114,7 @@
 - ex07_loadingManager : 로딩 매니저 (여러개의 텍스쳐 이미지)
 
 - ex08_repeatWrapping : 텍스쳐 변환 (위치 이동, 회전 등)시 RepeatWrapping을 사용해 텍스처가 물체의 UV 좌표를 벗어날 경우 텍스처가 반복되어 적용하기, 기준접 가운데로 놓고 싶다면 texture.center.x, texture.center.y를 0.5로 두기
+
+- ex09_multiTextureCube : 여러 이미지 텍스쳐가 적용된 큐브,
+  - magFilter - 텍스처가 확대될 때 텍스처의 픽셀이 어떻게 화면에 표시될지를 제어
+  - THREE.NearestFilter - 부드러운 보간 없이 픽셀이 그대로 보이게 되어, 블록 모양의 픽셀화된 느낌을 준다.

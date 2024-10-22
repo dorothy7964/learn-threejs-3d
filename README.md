@@ -112,3 +112,5 @@
 - ex06_textureLoader : 텍스쳐 이미지 로드하기
 
 - ex07_loadingManager : 로딩 매니저 (여러개의 텍스쳐 이미지)
+
+- ex08_repeatWrapping : 텍스쳐 변환 (위치 이동, 회전 등)시 RepeatWrapping을 사용해 텍스처가 물체의 UV 좌표를 벗어날 경우 텍스처가 반복되어 적용하기, 기준접 가운데로 놓고 싶다면 texture.center.x, texture.center.y를 0.5로 두기

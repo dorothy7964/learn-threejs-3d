@@ -121,3 +121,5 @@
   - THREE.NearestFilter - 부드러운 보간 없이 픽셀이 그대로 보이게 되어, 블록 모양의 픽셀화된 느낌을 준다.
 
 - ex10_meshToonMaterial : 만화 느낌
+
+- ex11_meshNormalMaterial : 각 법선의 방향에 따라 다른 색상을 부여

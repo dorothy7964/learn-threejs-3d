@@ -6,6 +6,7 @@
 // import example from "./ex06_textureLoader";
 // import example from "./ex07_loadingManager";
 // import example from "./ex08_repeatWrapping";
-import example from "./ex09_multiTextureCube";
+// import example from "./ex09_multiTextureCube";
+import example from "./ex10_meshToonMaterial";
 
 example();

@@ -1,9 +1,30 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-/* 주제: MeshNormalMaterial */
+/* 주제: MeshMatcapMaterial */
 
 export default function example() {
+  /* 로딩 매니저 */
+  const loadingManager = new THREE.LoadingManager();
+  loadingManager.onStart = () => {
+    console.log("로드 시작");
+  };
+  loadingManager.onProgress = (img) => {
+    console.log(img + " 로드");
+  };
+  loadingManager.onLoad = () => {
+    console.log("로드 완료");
+  };
+  loadingManager.onError = () => {
+    console.log("에러");
+  };
+
+  /* 텍스쳐 이미지 로드 */
+  const textureLoader = new THREE.TextureLoader(loadingManager);
+  const matcapTex = textureLoader.load("/textures/matcap/material3.jpg");
+  // const matcapTex = textureLoader.load("/textures/matcap/Copper_1.png");
+  // const matcapTex = textureLoader.load("/textures/matcap/silver.jpg");
+
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
   const canvas = document.querySelector("#three-canvas");
   const renderer = new THREE.WebGLRenderer({
@@ -40,7 +61,9 @@ export default function example() {
   /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(2, 2, 2);
   // const geometry = new THREE.SphereGeometry(1, 64, 64);
-  const material = new THREE.MeshNormalMaterial();
+  const material = new THREE.MeshMatcapMaterial({
+    matcap: matcapTex
+  });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 

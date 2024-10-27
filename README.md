@@ -125,3 +125,5 @@
 - ex11_meshNormalMaterial : 각 법선의 방향에 따라 다른 색상을 부여
 
 - ex12_meshMatcapMaterial : Matcap 텍스처를 사용하여 간단하게 색상과 조명 효과를 적용 가능
+
+- ex13_meshStandardMaterial_effect : MeshStandardMaterial에 효과 더하기

@@ -129,3 +129,7 @@
 - ex13_meshStandardMaterial_effect : MeshStandardMaterial에 효과 더하기
 
 - ex14_environmentMap : 3D 장면의 물체 표면에 반사되는 배경 이미지를 설정하여 물체가 주변 환경을 반사하는 효과를 주는 방법
+
+- ex15, ex16은 ex14_environmentMap에 같이 적용해 놓음
+
+- ex17_canvasTexture : Material에 Canvas 사용하기

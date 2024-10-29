@@ -1,26 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-/* 주제: EnvironmentMap, SkyBox */
-// HDR파일 다운로드 : https://polyhaven.com/
-// HDR to cubeMap 변환 : https://matheowis.github.io/HDRI-to-CubeMap/
+/* 주제: Material에 Canvas 사용하기 */
 
 export default function example() {
-  /* 텍스쳐 이미지 로드 */
-  const cubeTextureLoader = new THREE.CubeTextureLoader();
-  const envTex = cubeTextureLoader.setPath("/textures/cubemap/").load([
-    // 파일명 순서대로 넣기
-    // X-Y-Z 순으로 넣는다.
-    // 플러스(+) - 마이너스(-) 순으로 넣는다.
-    // 파일명의 p는 Positive 플러스(+),  n은 Negative 마이너스(-)를 의미한다.
-    "px.png",
-    "nx.png",
-    "py.png",
-    "ny.png",
-    "pz.png",
-    "nz.png"
-  ]);
-
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
   const canvas = document.querySelector("#three-canvas");
   const renderer = new THREE.WebGLRenderer({
@@ -32,7 +15,6 @@ export default function example() {
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();
-  scene.background = envTex; // 장면 배경과 물체의 Environment Map 설정
 
   /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
@@ -45,22 +27,24 @@ export default function example() {
   scene.add(camera);
 
   /* Light 만들기 */
-  const ambientLight = new THREE.AmbientLight("white", 0.5);
-  const directionalLight = new THREE.DirectionalLight("white", 1);
-  directionalLight.position.set(1, 1, 2);
-  scene.add(ambientLight, directionalLight);
+  // MeshBasicMaterial은 조명이 필요 없다.
 
   /* Controls 만들기 */
   new OrbitControls(camera, renderer.domElement);
 
+  /* CanvasTexture 만들기 */
+  // Canvas 요소 생성 및 텍스트, 도형 그리기
+  const texCanvas = document.createElement("canvas");
+  const texContext = texCanvas.getContext("2d"); // HTML5 캔버스 요소의 2D 렌더링 컨텍스트를 가져오는 코드
+  texCanvas.width = 500;
+  texCanvas.height = 500;
+  // CanvasTexture로 변환하여 Three.js 텍스처 생성
+  const canvasTexture = new THREE.CanvasTexture(texCanvas);
+
   /* Messh 만들기 */
   const geometry = new THREE.BoxGeometry(2, 2, 2);
   const material = new THREE.MeshBasicMaterial({
-    // const material = new THREE.MeshStandardMaterial({
-    // MeshStandardMaterial을 사용할 때 옵션인 metalness, roughness를 조절하기
-    // metalness: 0.9, // 메탈릭 속성 증가로 반사 효과 극대화
-    // roughness: 0.1, // 거칠기 감소로 표면 반사 강화
-    envMap: envTex
+    map: canvasTexture
   });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
@@ -69,7 +53,22 @@ export default function example() {
   const clock = new THREE.Clock();
 
   function draw() {
-    const delta = clock.getDelta();
+    const time = clock.getElapsedTime(); // getElapsedTime : 경과시간
+
+    // 캔버스 텍스처 업데이트 : 애니메이션을 사용하기 위해 needsUpdate를 true 만들어주기
+    material.map.needsUpdate = true;
+
+    // 캔버스 배경색
+    texContext.fillStyle = "orange";
+
+    // 도형 그리기
+    texContext.fillRect(0, 0, 500, 500);
+    texContext.fillStyle = "white";
+    texContext.fillRect(Math.sin(time) * 300, 100, 50, 50); // 경과 시간을 사용하여 sin 함수를 이용한 애니메이션
+
+    // 텍스트 추가
+    texContext.font = "bold 50px sans-serif";
+    texContext.fillText("texContext", 200, 200);
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

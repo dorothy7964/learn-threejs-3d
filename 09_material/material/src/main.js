@@ -11,6 +11,7 @@
 // import example from "./ex11_meshNormalMaterial";
 // import example from "./ex12_meshMatcapMaterial";
 // import example from "./ex13_meshStandardMaterial_effect";
-import example from "./ex14_environmentMap";
+// import example from "./ex14_environmentMap";
+import example from "./ex17_canvasTexture";
 
 example();

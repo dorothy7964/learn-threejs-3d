@@ -127,3 +127,5 @@
 - ex12_meshMatcapMaterial : Matcap 텍스처를 사용하여 간단하게 색상과 조명 효과를 적용 가능
 
 - ex13_meshStandardMaterial_effect : MeshStandardMaterial에 효과 더하기
+
+- ex14_environmentMap : 3D 장면의 물체 표면에 반사되는 배경 이미지를 설정하여 물체가 주변 환경을 반사하는 효과를 주는 방법

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import dat from "dat.gui";
 
-/* 주제: Light 기본 */
+/* 주제: Light 기본 + 애니메이션 */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -63,6 +63,7 @@ export default function example() {
   // PlaneGeometry
   // 기본적으로 평면 매쉬는 수직으로 되어있다.
   // 평면으로 사용하려면 위치를 조정해주면 된다.
+  // Math.PI * 0.5: π의 절반 값으로, 이는 90도를 의미한다. X축을 기준으로 90도 회전
   plane.rotation.x = -Math.PI * 0.5;
   //box, sphere은 평면에 띄우기 위해 위치 조정
   box.position.set(1, 1, 0);
@@ -81,7 +82,15 @@ export default function example() {
   gui.add(light.position, "z", -5, 10).name("Light Z");
 
   /* 그리기 */
+  const clock = new THREE.Clock();
+
   function draw() {
+    // 삼각함수 사용하여 반지름이 5인 원을 그리며 이동하기
+    const time = clock.getElapsedTime();
+
+    light.position.x = Math.cos(time) * 5;
+    light.position.z = Math.sin(time) * 5;
+
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
   }

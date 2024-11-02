@@ -140,8 +140,9 @@
 
     reademe.txt에 있는 패키지 설치 하기
 
-- ex01_light_basic : Light 기본 사용법
+- ex01_light_basic : Light 기본 사용법 + 애니메이션
   - AmbientLight : 전체적으로 은은하게 깔아주는 조명
   - DirectionalLight : 태양광 같은 조명
   - lightHelper: 조명을 시각적으로 확인하는 법
   - Dat GUI 만들기 : 객체의 속성을 실시간으로 조정할 수 있는 인터페이스를 이용해 조명 위치 조정
+  - 삼각함수를 이용해 원형적인 움직임을 구현하기

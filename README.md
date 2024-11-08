@@ -141,8 +141,19 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_light_basic : Light 기본 사용법 + 애니메이션
+
   - AmbientLight : 전체적으로 은은하게 깔아주는 조명
   - DirectionalLight : 태양광 같은 조명
   - lightHelper: 조명을 시각적으로 확인하는 법
   - Dat GUI 만들기 : 객체의 속성을 실시간으로 조정할 수 있는 인터페이스를 이용해 조명 위치 조정
   - 삼각함수를 이용해 원형적인 움직임을 구현하기
+
+- ex02_light_shadow
+
+  - 렌더러에 그림자를 설정 후 조명, 각 각 물체에서도 그림자를 설정해줘야 한다.
+  - THREE.BasicShadowMap : 기본적인 그림자 맵, 속도는 가장 빠르지만 그림자가 뚜렷하지 않는다.
+  - THREE.PCFShadowMap : Percentage Closer Filtering (PCF) 방식으로 렌더링. 그림자가 부드럽게 보이며, 기본 그림자 맵보다 디테일이 향상되지만 성능이 약간 저하 될 수 있다.
+  - THREE.PCFSoftShadowMap : PCF 방식에 추가적인 소프트 처리를 적용하여 그림자가 매우 부드럽게 표현되지만 성능이 더 많이 요구 된다.
+  - CastShadow : 물체에 그림자 생성 (카메라 범위, 받는 객체 receiveShadow 설정, 렌더러 설정)
+  - Receive Shadow : 빛에 의해 투사된 다른 오브젝트의 그림자를 받을 수 있다.
+  - shadow.mapSize : 그림자 맵의 해상도를 설정하는 속성

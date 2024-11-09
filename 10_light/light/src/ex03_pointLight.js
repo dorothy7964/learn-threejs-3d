@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import dat from "dat.gui";
 
-/* 주제: Light + 그림자(Shadow) */
+/* 주제: PointLight */
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -16,14 +16,6 @@ export default function example() {
 
   // 그림자 설정
   renderer.shadowMap.enabled = true;
-
-  // THREE.BasicShadowMap : 기본적인 그림자 맵, 속도는 가장 빠르지만 그림자가 뚜렷하지 않는다.
-  // THREE.PCFShadowMap : Percentage Closer Filtering (PCF) 방식으로 렌더링. 그림자가 부드럽게 보이며, 기본 그림자 맵보다 디테일이 향상되지만 성능이 약간 저하 될 수 있다.
-  // THREE.PCFSoftShadowMap : PCF 방식에 추가적인 소프트 처리를 적용하여 그림자가 매우 부드럽게 표현되지만 성능이 더 많이 요구 된다.
-
-  // renderer.shadowMap.type = THREE.BasicShadowMap;
-  renderer.shadowMap.type = THREE.PCFShadowMap;
-  // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();
@@ -43,14 +35,14 @@ export default function example() {
   const ambientLight = new THREE.AmbientLight("white", 0.5);
   scene.add(ambientLight);
 
-  // DirectionalLight : 태양광 같은 조명
-  const light = new THREE.DirectionalLight("red", 0.5);
-  light.position.x = -5;
+  // PointLight : 빛이 모든 방향으로 퍼져나가는 조명 효과
+  const light = new THREE.PointLight("white", 1, 100, 2);
+  light.position.x = -3;
   light.position.y = 3;
   scene.add(light);
 
   // lightHelper: 조명을 시각적으로 확인하는 법
-  const lightHelper = new THREE.DirectionalLightHelper(light);
+  const lightHelper = new THREE.PointLightHelper(light);
   scene.add(lightHelper);
 
   // 조명에 그림자 설정
@@ -105,7 +97,14 @@ export default function example() {
   gui.add(light.position, "z", -5, 10).name("Light Z");
 
   /* 그리기 */
+  // const clock = new THREE.Clock();
+
   function draw() {
+    // const time = clock.getElapsedTime();
+
+    // light.position.x = Math.cos(time) * 5;
+    // light.position.z = Math.sin(time) * 5;
+
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
   }

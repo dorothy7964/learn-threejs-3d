@@ -165,3 +165,11 @@
 - ex05_hemisphereLight : 하늘과 땅을 기반으로 빛을 조절하는 조명 효과
 
 - ex06_rectAreaLight : 직사각형 모양으로 균일한 빛을 방사하는 조명 효과, 실내 장면이나 부드러운 조명 효과가 필요한 곳에 많이 사용
+
+11_raycaster
+
+    참고 : 11_raycaster/raycaster/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기
+
+- ex01_test : 작성

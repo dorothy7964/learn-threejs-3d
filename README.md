@@ -172,4 +172,5 @@
 
     reademe.txt에 있는 패키지 설치 하기
 
-- ex01_test : 작성
+- ex01_intersects : 특정 방향의 광선(Ray)에 맞은 Mesh 판별하기
+  - Raycaster를 방향 설정사용할 때 정규화된 벡터여야 한다. (단위: ㄴ1)

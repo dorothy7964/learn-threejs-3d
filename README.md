@@ -173,4 +173,8 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_intersects : 특정 방향의 광선(Ray)에 맞은 Mesh 판별하기
-  - Raycaster를 방향 설정사용할 때 정규화된 벡터여야 한다. (단위: ㄴ1)
+
+  - Raycaster를 방향 설정사용할 때 정규화된 벡터여야 한다. (단위: 1)
+
+- ex02_eventClick : 클릭한 Mesh 감지하기
+  - setFromCamera : Raycaster의 방향과 시작 위치를 카메라를 기준으로 설정, 마우스 위치를 3D 공간의 광선(Ray)으로 변환하는 데 사용

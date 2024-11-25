@@ -181,4 +181,7 @@
   - setFromCamera : Raycaster의 방향과 시작 위치를 카메라를 기준으로 설정, 마우스 위치를 3D 공간의 광선(Ray)으로 변환하는 데 사용
 
 - ex03_preventDragClick : 드래그 클릭 방지
-- 위치와 경과시간으로 체크
+
+  - 위치와 경과시간으로 체크
+
+- ex04_module_preventDragClick : 드래그 클릭 방지 모듈로 만들기

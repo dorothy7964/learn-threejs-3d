@@ -185,3 +185,9 @@
   - 위치와 경과시간으로 체크
 
 - ex04_module_preventDragClick : 드래그 클릭 방지 모듈로 만들기
+
+12_custom_model
+
+    참고 : 12_custom_model/custom_model/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기

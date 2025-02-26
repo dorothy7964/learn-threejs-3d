@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 /* 주제: glb 파일 불러오기 */
 
@@ -39,7 +40,19 @@ export default function example() {
   /* Controls 만들기 */
   new OrbitControls(camera, renderer.domElement);
 
-  // gltf loader
+  /* GLTF Loader: glf 파일 불러오기 */
+  const gltfLoader = new GLTFLoader();
+  gltfLoader.load(
+    "/models/character.glb", // 파일 위치
+    (gltf) => {
+      // GLTF 로드가 끝나면 실행하는 콜백 함수가 실행
+      console.log(gltf.scene.children[0]);
+
+      // 만든 캐릭터 불러오기
+      const characterMesh = gltf.scene.children[0];
+      scene.add(characterMesh);
+    }
+  );
 
   /* 그리기 */
   const clock = new THREE.Clock();

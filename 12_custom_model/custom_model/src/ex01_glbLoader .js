@@ -46,10 +46,7 @@ export default function example() {
     "/models/character.glb", // 파일 위치
     (gltf) => {
       // GLTF 로드가 끝나면 실행하는 콜백 함수가 실행
-      console.log(gltf.scene.children[0]);
-
-      // 만든 캐릭터 불러오기
-      const characterMesh = gltf.scene.children[0];
+      const characterMesh = gltf.scene.children[0]; // 만든 캐릭터 불러오기
       scene.add(characterMesh);
     }
   );

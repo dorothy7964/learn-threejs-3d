@@ -16,7 +16,6 @@ export default function example() {
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();
-  scene.add(directionalLight);
 
   /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
@@ -25,12 +24,12 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.y = 1.5;
-  camera.position.z = 4;
+  camera.position.y = 1;
+  camera.position.z = 1;
   scene.add(camera);
 
   /* Light 만들기 */
-  const ambientLight = new THREE.AmbientLight("white", 1);
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight("white", 2); // 세기 증가
@@ -47,7 +46,6 @@ export default function example() {
     (gltf) => {
       // GLTF 로드가 끝나면 실행하는 콜백 함수가 실행
       const characterMesh = gltf.scene.children[0]; // 만든 캐릭터 불러오기
-
       scene.add(characterMesh);
     }
   );

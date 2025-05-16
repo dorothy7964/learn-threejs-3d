@@ -16,6 +16,7 @@ export default function example() {
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();
+  scene.add(directionalLight);
 
   /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
@@ -29,12 +30,11 @@ export default function example() {
   scene.add(camera);
 
   /* Light 만들기 */
-  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  const ambientLight = new THREE.AmbientLight("white", 1);
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight("white", 1);
-  directionalLight.position.x = 1;
-  directionalLight.position.z = 2;
+  const directionalLight = new THREE.DirectionalLight("white", 2); // 세기 증가
+  directionalLight.position.set(7, 5, 2); // 위에서 비추도록 위치 조정
   scene.add(directionalLight);
 
   /* Controls 만들기 */
@@ -43,10 +43,11 @@ export default function example() {
   /* GLTF Loader: glf 파일 불러오기 */
   const gltfLoader = new GLTFLoader();
   gltfLoader.load(
-    "/models/character.glb", // 파일 위치
+    "/models/aircraft.glb", // 파일 위치 [character = 내가 만든 것, aircraft = sketchfab 사이트에서 가져온것]
     (gltf) => {
       // GLTF 로드가 끝나면 실행하는 콜백 함수가 실행
       const characterMesh = gltf.scene.children[0]; // 만든 캐릭터 불러오기
+
       scene.add(characterMesh);
     }
   );

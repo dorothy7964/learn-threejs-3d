@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as CANNON from "cannon-es"; //최신 버전으로 설치하기 위해 cannon 대신 cannon-es로 설치
 
 /* 주제: cannon.js 기본 세팅 */
 // cannon.js 문서
@@ -25,8 +27,8 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.y = 1.5;
-  camera.position.z = 4;
+  camera.position.y = 2;
+  camera.position.z = 10;
   scene.add(camera);
 
   /* Light 만들기 */
@@ -39,14 +41,34 @@ export default function example() {
   scene.add(directionalLight);
 
   /* Controls 만들기 */
+  new OrbitControls(camera, renderer.domElement);
+
+  /* Cannon(물리 엔진) */
+  // 1. 월드 생성
+  const cannonWorld = new CANNON.World();
+  cannonWorld.gravity.set(0, -10, 0); // 중력 적용, (x, y, z) 위에서 아래로 표현하기 때문에 y값만 넣어줌
+
+  // 2. 물리 바디 생성
 
   /* Mesh 만들기기 */
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshStandardMaterial({
+  // 바닥 만들기
+  const floorMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 10),
+    new THREE.MeshStandardMaterial({
+      color: "slategray"
+    })
+  );
+  floorMesh.rotation.x = -Math.PI / 2; // 바닥 눕히기, Math.PI = 180도
+  scene.add(floorMesh);
+
+  // 박스 만들기
+  const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const boxMaterial = new THREE.MeshStandardMaterial({
     color: "seagreen"
   });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+  boxMesh.position.y = 0.5;
+  scene.add(boxMesh);
 
   /* 그리기 */
   const clock = new THREE.Clock();

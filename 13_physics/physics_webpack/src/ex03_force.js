@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as CANNON from "cannon-es"; //최신 버전으로 설치하기 위해 cannon 대신 cannon-es로 설치
+import { PreventDragClick } from "./PreventDragClick";
 
-/* 주제: Contact Material 재질에 따른 마찰력과 반발력 */
+/* 주제: 힘(Force) */
 
 // cannon.js 문서
 // http://schteppe.github.io/cannon.js/docs/
@@ -56,8 +57,6 @@ export default function example() {
 
   // 재질 정의
   const defaultMaterial = new CANNON.Material("default"); // 기본 재질
-  const rubberMaterial = new CANNON.Material("rubber"); // 고무 재질
-  const ironMaterial = new CANNON.Material("iron"); // 쇠 재질
 
   // 재질과 재질이 만났을 때의 상세 성질을 정의, 부딪칠 재질을 넣어주기
   const defaultContactMaterial = new CANNON.ContactMaterial(
@@ -69,28 +68,8 @@ export default function example() {
     }
   );
 
-  const rubberDefaultContactMaterial = new CANNON.ContactMaterial(
-    rubberMaterial,
-    defaultMaterial,
-    {
-      friction: 0.5,
-      restitution: 0.7
-    }
-  );
-
-  const ironDefaultContactMaterial = new CANNON.ContactMaterial(
-    ironMaterial,
-    defaultMaterial,
-    {
-      friction: 0.5,
-      restitution: 0
-    }
-  );
-
   // canoonWorld에 ContactMaterial 적용
   cannonWorld.defaultContactMaterial = defaultContactMaterial; // 기본 Material로 지정
-  cannonWorld.addContactMaterial(rubberDefaultContactMaterial);
-  cannonWorld.addContactMaterial(ironDefaultContactMaterial);
 
   // 3. 물리 바디 생성
 
@@ -121,8 +100,7 @@ export default function example() {
     mass: 1,
     position: new CANNON.Vec3(0, 10, 0),
     shape: sphereShape,
-    // material: rubberMaterial // Contact Material 고무 재질로 적용
-    material: ironMaterial // Contact Material 쇠 재질로 적용
+    material: defaultMaterial
   });
   cannonWorld.addBody(sphereBody);
 
@@ -161,6 +139,14 @@ export default function example() {
     sphereMesh.position.copy(sphereBody.position); // 위치
     sphereMesh.quaternion.copy(sphereBody.quaternion); // 회전
 
+    // 공 속도 감소
+    sphereBody.velocity.x *= 0.98;
+    sphereBody.velocity.y *= 0.98;
+    sphereBody.velocity.z *= 0.98;
+    sphereBody.angularVelocity.x *= 0.98;
+    sphereBody.angularVelocity.y *= 0.98;
+    sphereBody.angularVelocity.z *= 0.98;
+
     renderer.render(scene, camera);
     window.requestAnimationFrame(draw);
   }
@@ -174,6 +160,23 @@ export default function example() {
 
   /* 이벤트 */
   window.addEventListener("resize", setSize);
+
+  // 아무 곳이나 누르면 바람이 불도록 만들기
+  window.addEventListener("click", () => {
+    if (preventDragClick.mouseMoved) return; // 드래그 시 힘 적용 방지
+
+    // 힘 누적 방지하기 (Velocity & AngularVelocity 초기화)
+    sphereBody.velocity.x = 0;
+    sphereBody.velocity.y = 0;
+    sphereBody.velocity.z = 0;
+    sphereBody.angularVelocity.x = 0;
+    sphereBody.angularVelocity.y = 0;
+    sphereBody.angularVelocity.z = 0;
+
+    sphereBody.applyForce(new CANNON.Vec3(-100, 0, 0), sphereBody.position);
+  });
+
+  const preventDragClick = new PreventDragClick(canvas); // 캔버스 드래그 시 힘 적용 방지
 
   draw();
 }

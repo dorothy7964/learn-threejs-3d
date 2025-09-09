@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as CANNON from "cannon-es"; //최신 버전으로 설치하기 위해 cannon 대신 cannon-es로 설치
 
 /* 주제: cannon.js 기본 세팅 + 물리가 적용되는 객체 만들기 */
+
 // cannon.js 문서
 // http://schteppe.github.io/cannon.js/docs/
 // 주의! https 아니고 http

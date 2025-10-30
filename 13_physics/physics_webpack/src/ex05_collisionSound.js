@@ -4,7 +4,7 @@ import * as CANNON from "cannon-es"; //최신 버전으로 설치하기 위해 c
 import { PreventDragClick } from "./PreventDragClick";
 import { MySphere } from "./MySphere";
 
-/* 주제: Performance(성능 좋게 하기) */
+/* 주제: 충돌 사운드 넣기 */
 
 // cannon.js 문서
 // http://schteppe.github.io/cannon.js/docs/
@@ -149,24 +149,39 @@ export default function example() {
     renderer.render(scene, camera);
   }
 
+  // 사운드 경로
+  const sound = new Audio("/sounds/boing.mp3");
+
+  /* 충돌 이벤트 */
+  function collide(e) {
+    const velocity = e.contact.getImpactVelocityAlongNormal();
+    console.log("📢 [ex05_collisionSound.js:158]", velocity);
+    if (velocity > 3) {
+      sound.currentTime = 0; //충돌이 될때마다 처음부터 다시 재생
+      sound.play(); // 충돌이 있을 때마다 사운드 플레이
+    }
+  }
+
   /* 이벤트 */
   window.addEventListener("resize", setSize);
 
   // 클릭할 때마다 랜덤한 위치에 공 추가하기
-  window.addEventListener("click", () => {
-    spheres.push(
-      new MySphere({
-        radius,
-        scene,
-        cannonWorld,
-        geometry: sphereGeometry,
-        material: sphereMaterial,
-        x: (Math.random() - 0.5) * 2, // x좌표를 가운데(0)을 기준으로 좌우로 랜덤하게 배치
-        y: Math.random() * 5 + 2, // 바닥에서 약간 위쪽에만 구가 생성되게 하려는 것
-        z: (Math.random() - 0.5) * 2, // 앞뒤로 살짝 흩뿌리듯 랜덤 배치
-        scale: Math.random() + 0.2
-      })
-    );
+  canvas.addEventListener("click", () => {
+    const mySphere = new MySphere({
+      radius,
+      scene,
+      cannonWorld,
+      geometry: sphereGeometry,
+      material: sphereMaterial,
+      x: (Math.random() - 0.5) * 2, // x좌표를 가운데(0)을 기준으로 좌우로 랜덤하게 배치
+      y: Math.random() * 5 + 2, // 바닥에서 약간 위쪽에만 구가 생성되게 하려는 것
+      z: (Math.random() - 0.5) * 2, // 앞뒤로 살짝 흩뿌리듯 랜덤 배치
+      scale: Math.random() + 0.2
+    });
+
+    spheres.push(mySphere);
+
+    mySphere.cannonBody.addEventListener("collide", collide);
   });
 
   const preventDragClick = new PreventDragClick(canvas); // 캔버스 드래그 시 힘 적용 방지

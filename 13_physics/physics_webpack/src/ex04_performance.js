@@ -54,6 +54,13 @@ export default function example() {
   const cannonWorld = new CANNON.World();
   cannonWorld.gravity.set(0, -10, 0); // 중력 적용, (x, y, z) 위에서 아래로 표현하기 때문에 y값만 넣어줌
 
+  /* 성능을 위한 세팅 */
+  cannonWorld.allowSleep = true; // 안 움직이는 물체는 계산 안 하게 하는 옵션 : body가 엄청 느려지면 테스트를 멈춤
+  cnnonWorld.broadphase = new CANNON.SAPBroadphase(cannonWorld);
+  // SAPBroadphase // 충돌 가능성만 빠르게 판별, 가장 효율적
+  // NaiveBroadphase // 기본값, 모든 물체끼리 전부 비교, 가장 느림
+  // GridBroadphase // 같은 구역에 있는 물체들만 비교
+
   // 2. Contact Material : 재질에 따른 마찰력과 반발력
 
   // 재질 정의

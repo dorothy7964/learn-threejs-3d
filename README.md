@@ -99,7 +99,6 @@
 - ex01_meshBasicMaterial : Three.js에서 자주 사용되는 재질 중 하나이고 조명 영향을 받지 않는 것이 특징이다. 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.
 
 - ex02_meshLambertMaterial_meshPhongMaterial : 두 재질은 3D 객체의 표면에 어떻게 빛이 반사되고 표현될지를 결정해 준다.
-
   - MeshLambertMaterial - 하이라이트, 반사광 없는 재질
   - MeshPhongMaterial -하이라이트, 반사광 표현 가능
 
@@ -116,7 +115,6 @@
 - ex08_repeatWrapping : 텍스쳐 변환 (위치 이동, 회전 등)시 RepeatWrapping을 사용해 텍스처가 물체의 UV 좌표를 벗어날 경우 텍스처가 반복되어 적용하기, 기준접 가운데로 놓고 싶다면 texture.center.x, texture.center.y를 0.5로 두기
 
 - ex09_multiTextureCube : 여러 이미지 텍스쳐가 적용된 큐브,
-
   - magFilter - 텍스처가 확대될 때 텍스처의 픽셀이 어떻게 화면에 표시될지를 제어
   - THREE.NearestFilter - 부드러운 보간 없이 픽셀이 그대로 보이게 되어, 블록 모양의 픽셀화된 느낌을 준다.
 
@@ -141,7 +139,6 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_light_basic : Light 기본 사용법 + 애니메이션
-
   - AmbientLight : 전체적으로 은은하게 깔아주는 조명
   - DirectionalLight : 태양광 같은 조명
   - lightHelper: 조명을 시각적으로 확인하는 법
@@ -149,7 +146,6 @@
   - 삼각함수를 이용해 원형적인 움직임을 구현하기
 
 - ex02_light_shadow : 그림자
-
   - 렌더러에 그림자를 설정 후 조명, 각 각 물체에서도 그림자를 설정해줘야 한다.
   - THREE.BasicShadowMap : 기본적인 그림자 맵, 속도는 가장 빠르지만 그림자가 뚜렷하지 않는다.
   - THREE.PCFShadowMap : Percentage Closer Filtering (PCF) 방식으로 렌더링. 그림자가 부드럽게 보이며, 기본 그림자 맵보다 디테일이 향상되지만 성능이 약간 저하 될 수 있다.
@@ -173,15 +169,12 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_intersects : 특정 방향의 광선(Ray)에 맞은 Mesh 판별하기
-
   - Raycaster를 방향 설정사용할 때 정규화된 벡터여야 한다. (단위: 1)
 
 - ex02_eventClick : 클릭한 Mesh 감지하기
-
   - setFromCamera : Raycaster의 방향과 시작 위치를 카메라를 기준으로 설정, 마우스 위치를 3D 공간의 광선(Ray)으로 변환하는 데 사용
 
 - ex03_preventDragClick : 드래그 클릭 방지
-
   - 위치와 경과시간으로 체크
 
 - ex04_module_preventDragClick : 드래그 클릭 방지 모듈로 만들기
@@ -213,3 +206,5 @@
 - ex04_performance : Performance(성능 좋게 하기)
 
 - ex05_collisionSound : 충돌 사운드 넣기
+
+- ex06_removeObject : 오브젝트 제거하기

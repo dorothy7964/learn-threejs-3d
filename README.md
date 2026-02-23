@@ -208,3 +208,5 @@
 - ex05_collisionSound : 충돌 사운드 넣기
 
 - ex06_removeObject : 오브젝트 제거하기
+
+- ex07_domino_glb : 도미노 만들기 / glb 배치 [ Domino.js 불러오기]

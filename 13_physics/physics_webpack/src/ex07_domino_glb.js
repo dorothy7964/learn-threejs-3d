@@ -7,6 +7,7 @@ import { Domino } from "./Domino";
 
 /* 주제: 도미노 만들기 */
 // 도미노 만들기 : glb 배치
+// 물리엔전 적용
 
 // cannon.js 문서
 // http://schteppe.github.io/cannon.js/docs/
@@ -126,6 +127,7 @@ export default function example() {
       scene,
       cannonWorld,
       gltfLoader,
+      y: 2, // 물리엔진 테스트용 높이 설정
       z: -i * 0.8 // 도미노 간격
     });
     dominos.push(domino);
@@ -140,6 +142,16 @@ export default function example() {
     let cannonStepTime = 1 / 60;
     if (delta < 0.01) cannonStepTime = 1 / 120; // 화면 주사율에 맞춰 유동적으로 대응하기 위함
     cannonWorld.step(cannonStepTime, delta, 3);
+
+    // 물리 결과 → 화면 메쉬 동기화
+    dominos.forEach((item) => {
+      // 물리 바디가 존재하는 경우에만 위치/회전 동기화
+      if (item.cannonBody) {
+        // Cannon 물리 바디의 위치와 회전을 모델 메쉬에 복사하여 실제 움직임을 화면에 표시
+        item.modelMesh.position.copy(item.cannonBody.position);
+        item.modelMesh.quaternion.copy(item.cannonBody.quaternion);
+      }
+    });
 
     renderer.render(scene, camera);
     window.requestAnimationFrame(draw);

@@ -8,6 +8,7 @@ import { Domino } from "./Domino";
 /* 주제: 도미노 만들기 */
 // 도미노 만들기 : glb 배치
 // 물리엔전 적용
+// 레이캐스팅 : 레이캐스팅은 마우스로 클릭한 물체 찾을 때 사용
 
 // cannon.js 문서
 // http://schteppe.github.io/cannon.js/docs/
@@ -124,6 +125,7 @@ export default function example() {
   let domino;
   for (let i = -3; i < 17; i++) {
     domino = new Domino({
+      index: i,
       scene,
       cannonWorld,
       gltfLoader,
@@ -164,11 +166,35 @@ export default function example() {
     renderer.render(scene, camera);
   }
 
+  /* 레이캐스팅 */
+  // 마우스에서 보이지 않는 막대기를 쏴서 클릭한 도미노 찾기
+
+  // 마우스 좌표와 레이캐스팅 기초 설정
+  const raycaster = new THREE.Raycaster(); // 마우스에서 레이저 쏘는 장치
+  const mouse = new THREE.Vector2(); // 마우스 위치 저장 (화면 좌표)
+
+  // 레이캐스팅 검사 실행  (레이캐스터 셋팅)
+  function checkIntersects() {
+    raycaster.setFromCamera(mouse, camera); // 레이 발사
+    const intersects = raycaster.intersectObjects(scene.children);
+    console.log(intersects[0].object.name);
+  }
+
   /* 이벤트 */
   window.addEventListener("resize", setSize);
 
-  // 클릭할 때마다 랜덤한 위치에 공 추가하기
-  canvas.addEventListener("click", () => {});
+  // 캔버스 클릭 시 마우스 좌표 변환 및 레이캐스팅 실행
+  canvas.addEventListener("click", (e) => {
+    // 드래그가 아니면 → 마우스 좌표 변환 → 레이캐스팅 검사 실행
+    if (preventDragClick.mouseMoved) return; //의도: 카메라 이동 중 오작동 방지
+
+    // 마우스 좌표 변환
+    mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
+    mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1); // y에 -가 붙는 이유 : WebGL 좌표는 위가 +, 브라우저는 아래가 +라서 뒤집어준다.
+
+    //  레이캐스팅 검사 실행
+    checkIntersects();
+  });
 
   const preventDragClick = new PreventDragClick(canvas); // 캔버스 드래그 시 힘 적용 방지
 

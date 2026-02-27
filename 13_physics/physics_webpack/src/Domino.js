@@ -15,6 +15,9 @@ export class Domino {
     this.height = info.height || 1;
     this.depth = info.depth || 0.2;
 
+    // 도미노 INDEX
+    this.index = info.index;
+
     // 도미노 위치
     this.x = info.x || 0;
     this.y = info.y || 0.5; // 중심 기준 좌표 → 바닥 위에 놓으려면 높이/2 만큼 올려야 함
@@ -26,6 +29,7 @@ export class Domino {
     // 도미노 glb 로드하기
     info.gltfLoader.load("/models/domino.glb", (glb) => {
       this.modelMesh = glb.scene.children[0]; // 로드한 glb의 Mesh 접근
+      this.modelMesh.name = `${this.index}번 도미노`; // 도미노 이름
       this.modelMesh.castShadow = true; // 그림자
       this.modelMesh.position.set(this.x, this.y, this.z); // 도미노 위치
       this.scene.add(this.modelMesh);

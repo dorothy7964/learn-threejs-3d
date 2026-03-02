@@ -78,8 +78,8 @@ export default function example() {
     defaultMaterial,
     defaultMaterial,
     {
-      friction: 0.1, // 마찰력
-      restitution: 0.5 // 반박력
+      friction: 0.01, // 마찰력
+      restitution: 0.9 // 반박력
     }
   );
 
@@ -129,7 +129,7 @@ export default function example() {
       scene,
       cannonWorld,
       gltfLoader,
-      y: 2, // 물리엔진 테스트용 높이 설정
+      // y: 2, // 물리엔진 테스트용 높이 설정
       z: -i * 0.8 // 도미노 간격
     });
     dominos.push(domino);
@@ -173,11 +173,32 @@ export default function example() {
   const raycaster = new THREE.Raycaster(); // 마우스에서 레이저 쏘는 장치
   const mouse = new THREE.Vector2(); // 마우스 위치 저장 (화면 좌표)
 
-  // 레이캐스팅 검사 실행  (레이캐스터 셋팅)
+  // 레이캐스팅으로 클릭한 도미노 감지 후 물리 힘 적용
   function checkIntersects() {
     raycaster.setFromCamera(mouse, camera); // 레이 발사
     const intersects = raycaster.intersectObjects(scene.children);
     console.log(intersects[0].object.name);
+
+    /* 힘을 가해 도미노 쓰러뜨리기 */
+    for (const item of intersects) {
+      // 모든 메쉬가 물리 바디를 가지지 않음, 배경은 제외하기 위해 체크
+      if (intersects[0].object.cannonBody) {
+        item.object.cannonBody.applyForce(
+          new CANNON.Vec3(0, 0, -50),
+          new CANNON.Vec3(0, 0, 0)
+        );
+        break;
+      }
+    }
+
+    // 위 for문 코드로 대체
+    // 모든 메쉬가 물리 바디를 가지지 않음, 배경은 제외하기 위해 체크
+    // if (intersects[0].object.cannonBody) {
+    // 	intersects[0].object.cannonBody.applyForce(
+    // 		new CANNON.Vec3(0, 0, -100),
+    // 		new CANNON.Vec3(0, 0, 0)
+    // 	);
+    // }
   }
 
   /* 이벤트 */

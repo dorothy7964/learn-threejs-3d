@@ -52,6 +52,8 @@
 
 06_transform
 
+    변환
+
     참고 : 06_transform/transform/src/main.js 에서 예제 주석 처리
 
     reademe.txt에 있는 패키지 설치 하기
@@ -63,6 +65,8 @@
 
 07_geometry
 
+    모양
+
     참고 : 07_geometry/geometry/src/main.js 에서 예제 주석 처리
 
     reademe.txt에 있는 패키지 설치 하기
@@ -71,6 +75,8 @@
 - ex02_geometry_vertex : Geometry 정점(Vertex) position 이용하기
 
 08_controls
+
+    카메라 컨트롤
 
     참고 : 08_controls/controls/src/main.js 에서 예제 주석 처리
 
@@ -91,6 +97,8 @@
 - ex07_minecraftControls : 다양한 입력 장치의 설정, PointerLockControls에 키보드 컨트롤 추가
 
 09_material
+
+    재질
 
     참고 : 09_material/material/src/main.js 에서 예제 주석 처리
 
@@ -134,6 +142,8 @@
 
 10_light
 
+    조명
+
     참고 : 10_light/light/src/main.js 에서 예제 주석 처리
 
     reademe.txt에 있는 패키지 설치 하기
@@ -163,6 +173,8 @@
 - ex06_rectAreaLight : 직사각형 모양으로 균일한 빛을 방사하는 조명 효과, 실내 장면이나 부드러운 조명 효과가 필요한 곳에 많이 사용
 
 11_raycaster
+
+    광선의 동작원리
 
     참고 : 11_raycaster/raycaster/src/main.js 에서 예제 주석 처리
 
@@ -210,3 +222,13 @@
 - ex06_removeObject : 오브젝트 제거하기
 
 - ex07_domino_glb : 도미노 만들기 / glb 배치 [ Domino.js 불러오기] / 물리엔진적용 / 레이캐스팅
+
+14_particle
+
+    입자
+
+    참고 : 14_particle/particle_webpack/src/main.js 에서 예제 주석 처리
+
+    reademe.txt에 있는 패키지 설치 하기
+
+- ex01 : 작성

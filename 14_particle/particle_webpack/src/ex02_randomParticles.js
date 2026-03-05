@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-/* 주제: 기본 Geometry 파티클 */
+/* 주제: 랜덤 파티클 */
 // particle : 아주 작은 점(point)들을 많이 만들어서 효과를 만드는 기술
-// PointsMaterial 사용
+// BufferGeometry, PointsMaterial 사용
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -43,14 +43,28 @@ export default function example() {
   controls.enableDamping = true;
 
   /* Points 만들기 */
-  const geometry = new THREE.SphereGeometry(1, 32, 32);
+  const geometry = new THREE.BufferGeometry(); // 3D 객체의 정점(vertex) 데이터를 저장할 Geometry 생성
+  const particleCount = 100; // 만들 파티클 개수
+  const positions = new Float32Array(particleCount * 3); // 파티클의 위치(x,y,z)를 저장할 배열, 파티클 1개 = x,y,z → 값 3개 필요
+
+  // 각 파티클의 좌표값 랜덤 생성
+  for (let i = 0; i < positions.length; i++) {
+    // -5 ~ 5 사이 랜덤 위치 생성
+    positions[i] = (Math.random() - 0.5) * 10;
+  }
+
+  // geometry에 position 속성으로 정점 데이터 등록
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3) // 3개 값(x,y,z)이 하나의 vertex(정점)
+  );
+
   const material = new THREE.PointsMaterial({
-    size: 0.02, // 파티클의 기본 크기
-    sizeAttenuation: false // false면 카메라와 거리에 상관없이 크기가 항상 동일하게 보인다
-    // true면 카메라에서 멀어질수록 파티클이 작아진다 (기본값)
+    size: 0.03, // 파티클의 기본 크기
+    color: "green"
   });
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
 
   /* 그리기 */
   const clock = new THREE.Clock();

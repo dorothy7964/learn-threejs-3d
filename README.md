@@ -232,3 +232,4 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - ex01_basicGeometryParticles : 기본 Geometry 파티클
+- ex02_randomParticles : 랜덤 파티클

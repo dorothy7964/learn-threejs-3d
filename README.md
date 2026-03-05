@@ -225,10 +225,10 @@
 
 14_particle
 
-    입자
+    입자, 아주 작은 점(point)들을 많이 만들어서 효과를 만드는 기술
 
     참고 : 14_particle/particle_webpack/src/main.js 에서 예제 주석 처리
 
     reademe.txt에 있는 패키지 설치 하기
 
-- ex01 : 작성
+- ex01_basicGeometryParticles : 기본 Geometry 파티클

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 /* 주제: 기본 Geometry 파티클 */
+// particle : 아주 작은 점(point)들을 많이 만들어서 효과를 만드는 기술
 
 export default function example() {
   /* Renderer 만들기 : html에 캔버스 미리 만들기 */
@@ -42,9 +43,13 @@ export default function example() {
 
   /* Mesh 만들기 */
   const geometry = new THREE.SphereGeometry(1, 32, 32);
-  const material = new THREE.MeshStandardMaterial();
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  const material = new THREE.PointsMaterial({
+    size: 0.02, // 파티클의 기본 크기
+    sizeAttenuation: false // false면 카메라와 거리에 상관없이 크기가 항상 동일하게 보인다
+    // true면 카메라에서 멀어질수록 파티클이 작아진다 (기본값)
+  });
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
 
   /* 그리기 */
   const clock = new THREE.Clock();

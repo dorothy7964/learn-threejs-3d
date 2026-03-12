@@ -236,3 +236,4 @@
 - ex03_particleTexture : 파티클 이미지
 - ex04_randomColorParticles : 여러가지 색상의 파티클
 - ex05_pointMesh.js : 포인트 좌표에 메쉬 생성하기
+- ex06_imagePanelsRandomToSphere.js : 형태가 바뀌는 이미지 패널 만들기

@@ -65,7 +65,7 @@ export default function example() {
 
     plane.lookAt(0, 0, 0); // Plane이 구 중심(0,0,0)을 바라보도록 방향 설정
 
-    scene.add(plane); // Plane이 구 중심(0,0,0)을 바라보도록 방향 설정
+    scene.add(plane);
   }
 
   /* 그리기 */

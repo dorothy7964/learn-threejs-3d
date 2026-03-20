@@ -50,7 +50,7 @@ export default function example() {
   scene.add(mesh);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const time = clock.getElapsedTime(); // getElapsedTime : 경과시간

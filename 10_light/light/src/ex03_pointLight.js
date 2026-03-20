@@ -97,7 +97,7 @@ export default function example() {
   gui.add(light.position, "z", -5, 10).name("Light Z");
 
   /* 그리기 */
-  // const clock = new THREE.Clock();
+  // const clock = new THREE.Timer();
 
   function draw() {
     // const time = clock.getElapsedTime();

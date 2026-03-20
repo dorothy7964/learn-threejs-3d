@@ -62,7 +62,7 @@ export default function example() {
   scene.add(mesh1, mesh2);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const delta = clock.getDelta();

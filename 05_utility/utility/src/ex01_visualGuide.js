@@ -57,7 +57,7 @@ export default function example() {
   camera.lookAt(mesh.position);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const time = clock.getElapsedTime();

@@ -55,7 +55,7 @@ export default function example() {
   gui.add(camera.position, "z", 2, 10, 0.1).name("카메라 Z");
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   /* 회전 */
   mesh.rotation.reorder("YXZ"); // 회전 순서 정의

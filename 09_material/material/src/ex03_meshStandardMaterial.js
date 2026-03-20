@@ -15,7 +15,7 @@ export default function example() {
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('white');
+  scene.background = new THREE.Color("white");
 
   /* Camera 만들기 */
   const camera = new THREE.PerspectiveCamera(
@@ -29,41 +29,38 @@ export default function example() {
   scene.add(camera);
 
   /* Light 만들기 */
-	const ambientLight = new THREE.AmbientLight('white', 0.5);
-	const directionalLight = new THREE.DirectionalLight('white', 1);
-	directionalLight.position.set(1, 0, 2);
-	scene.add(ambientLight, directionalLight);
-
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  const directionalLight = new THREE.DirectionalLight("white", 1);
+  directionalLight.position.set(1, 0, 2);
+  scene.add(ambientLight, directionalLight);
 
   /* Controls 만들기 */
   new OrbitControls(camera, renderer.domElement);
 
   /* Messh 만들기 */
-	const geometry = new THREE.SphereGeometry(1, 16, 16);
+  const geometry = new THREE.SphereGeometry(1, 16, 16);
 
-
-
-	// MeshPhongMaterial, 상대적으로 덜 사실적	
-	const material1 = new THREE.MeshPhongMaterial({
-		color: 'orangered',
-		shininess: 800
-	});
+  // MeshPhongMaterial, 상대적으로 덜 사실적
+  const material1 = new THREE.MeshPhongMaterial({
+    color: "orangered",
+    shininess: 800
+  });
 
   // MeshStandardMaterial, 고품질의 사실적인 렌더링
   const material2 = new THREE.MeshStandardMaterial({
-		color: 'orangered',
-		roughness: 0.2,
-		metalness: 0.3
-	});
-  
-	const mesh1 = new THREE.Mesh(geometry, material1);
-	const mesh2 = new THREE.Mesh(geometry, material2);
-	mesh1.position.x = -1.5;
-	mesh2.position.x = 1.5;
-	scene.add(mesh1, mesh2);
+    color: "orangered",
+    roughness: 0.2,
+    metalness: 0.3
+  });
+
+  const mesh1 = new THREE.Mesh(geometry, material1);
+  const mesh2 = new THREE.Mesh(geometry, material2);
+  mesh1.position.x = -1.5;
+  mesh2.position.x = 1.5;
+  scene.add(mesh1, mesh2);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const delta = clock.getDelta();

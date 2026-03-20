@@ -16,7 +16,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 renderer.shadowMap.enabled = true; // 그림자 사용 ON
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 부드러운 그림자 타입
+renderer.shadowMap.type = THREE.PCFShadowMap; // 부드러운 그림자 타입
 
 /* ===============================
   ======= Scene 만들기 =======
@@ -149,7 +149,7 @@ houses.push(
 /* ===============================
     ======= 그리기 =======
 =============================== */
-const clock = new THREE.Clock();
+const clock = new THREE.Timer();
 
 function draw() {
   const delta = clock.getDelta();

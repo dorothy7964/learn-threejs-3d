@@ -69,7 +69,7 @@ export default function example() {
   const raycaster = new THREE.Raycaster();
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const time = clock.getElapsedTime();

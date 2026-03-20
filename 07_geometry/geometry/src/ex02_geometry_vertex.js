@@ -83,7 +83,7 @@ export default function example() {
   }
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     // 경과 시간, 처음 실행된 시점이 0에서 초 단위로 시간 값이 리턴

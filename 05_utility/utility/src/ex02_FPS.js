@@ -50,7 +50,7 @@ export default function example() {
   document.body.append(stats.domElement);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const time = clock.getElapsedTime();

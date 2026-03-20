@@ -58,7 +58,7 @@ export default function example() {
   const mouse = new THREE.Vector2();
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const time = clock.getElapsedTime();

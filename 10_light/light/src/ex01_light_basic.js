@@ -82,7 +82,7 @@ export default function example() {
   gui.add(light.position, "z", -5, 10).name("Light Z");
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     // 삼각함수 사용하여 반지름이 5인 원을 그리며 이동하기

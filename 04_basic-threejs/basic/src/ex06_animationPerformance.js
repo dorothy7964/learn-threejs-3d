@@ -44,7 +44,7 @@ export default function example() {
   scene.add(mesh);
 
   /*  애니메이션 성능 보정 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   /* 그리기 */
   function draw() {

@@ -28,9 +28,8 @@ export default function example() {
   scene.add(camera);
 
   /* Light 만들기 */
-// MeshBasicMaterial은 조명이 필요 없다
-// 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.
-
+  // MeshBasicMaterial은 조명이 필요 없다
+  // 조명이나 복잡한 계산이 필요 없기 때문에 성능이 가장 우수한 재질 중 하나이다.
 
   /* Controls 만들기 */
   new OrbitControls(camera, renderer.domElement);
@@ -44,7 +43,7 @@ export default function example() {
   scene.add(mesh);
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const delta = clock.getDelta();

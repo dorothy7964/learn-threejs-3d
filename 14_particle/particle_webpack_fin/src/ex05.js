@@ -1,92 +1,92 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // ----- 주제: Point 좌표에 Mesh 생성하기
 
 export default function example() {
-	// Renderer
-	const canvas = document.querySelector('#three-canvas');
-	const renderer = new THREE.WebGLRenderer({
-		canvas,
-		antialias: true
-	});
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+  // Renderer
+  const canvas = document.querySelector("#three-canvas");
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-	// Scene
-	const scene = new THREE.Scene();
+  // Scene
+  const scene = new THREE.Scene();
 
-	// Camera
-	const camera = new THREE.PerspectiveCamera(
-		75,
-		window.innerWidth / window.innerHeight,
-		0.1,
-		1000
-	);
-	camera.position.y = 1.5;
-	camera.position.z = 4;
-	scene.add(camera);
+  // Camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.y = 1.5;
+  camera.position.z = 4;
+  scene.add(camera);
 
-	// Light
-	const ambientLight = new THREE.AmbientLight('white', 0.5);
-	scene.add(ambientLight);
+  // Light
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  scene.add(ambientLight);
 
-	const directionalLight = new THREE.DirectionalLight('white', 1);
-	directionalLight.position.x = 1;
-	directionalLight.position.z = 2;
-	scene.add(directionalLight);
+  const directionalLight = new THREE.DirectionalLight("white", 1);
+  directionalLight.position.x = 1;
+  directionalLight.position.z = 2;
+  scene.add(directionalLight);
 
-	// Controls
-	const controls = new OrbitControls(camera, renderer.domElement);
-	controls.enableDamping = true;
-	
-	// Mesh
-	const planeMesh = new THREE.Mesh(
-		new THREE.PlaneGeometry(0.3, 0.3),
-		new THREE.MeshBasicMaterial({
-			color: 'red',
-			side: THREE.DoubleSide
-		})
-	);
+  // Controls
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
 
-	// Points
-	const sphereGeometry = new THREE.SphereGeometry(1, 8, 8);
-	const positionArray = sphereGeometry.attributes.position.array;
+  // Mesh
+  const planeMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.3, 0.3),
+    new THREE.MeshBasicMaterial({
+      color: "red",
+      side: THREE.DoubleSide
+    })
+  );
 
-	// 여러개의 Plane Mesh 생성
-	let plane;
-	for (let i = 0; i < positionArray.length; i += 3) {
-		plane = planeMesh.clone();
-		plane.position.x = positionArray[i];
-		plane.position.y = positionArray[i + 1];
-		plane.position.z = positionArray[i + 2];
+  // Points
+  const sphereGeometry = new THREE.SphereGeometry(1, 8, 8);
+  const positionArray = sphereGeometry.attributes.position.array;
 
-		plane.lookAt(0, 0, 0);
+  // 여러개의 Plane Mesh 생성
+  let plane;
+  for (let i = 0; i < positionArray.length; i += 3) {
+    plane = planeMesh.clone();
+    plane.position.x = positionArray[i];
+    plane.position.y = positionArray[i + 1];
+    plane.position.z = positionArray[i + 2];
 
-		scene.add(plane);
-	}
+    plane.lookAt(0, 0, 0);
 
-	// 그리기
-	const clock = new THREE.Clock();
+    scene.add(plane);
+  }
 
-	function draw() {
-		const delta = clock.getDelta();
+  // 그리기
+  const clock = new THREE.Timer();
 
-		controls.update();
+  function draw() {
+    const delta = clock.getDelta();
 
-		renderer.render(scene, camera);
-		window.requestAnimationFrame(draw);
-	}
+    controls.update();
 
-	function setSize() {
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		renderer.render(scene, camera);
-	}
+    renderer.render(scene, camera);
+    window.requestAnimationFrame(draw);
+  }
 
-	// 이벤트
-	window.addEventListener('resize', setSize);
+  function setSize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.render(scene, camera);
+  }
 
-	draw();
+  // 이벤트
+  window.addEventListener("resize", setSize);
+
+  draw();
 }

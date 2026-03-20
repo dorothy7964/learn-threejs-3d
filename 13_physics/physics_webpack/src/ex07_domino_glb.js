@@ -136,7 +136,7 @@ export default function example() {
   }
 
   /* 그리기 */
-  const clock = new THREE.Clock();
+  const clock = new THREE.Timer();
 
   function draw() {
     const delta = clock.getDelta();

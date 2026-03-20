@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { House } from "./House";
+import gsap from "gsap";
 
 /* 주제: 스크롤에 따라 움직이는 3D 페이지 */
 // 1. 기본 구조 만들기
@@ -71,13 +72,15 @@ scene.add(spotLight);
 // MeshStandardMaterial: 표준 재질 사용, 빛에 반응
 const floorMesh = new THREE.Mesh(
   new THREE.PlaneGeometry(100, 100), // 가로 100, 세로 100 평면
-  new THREE.MeshStandardMaterial({ color: "red" }) // 바닥 색상
+  new THREE.MeshStandardMaterial({ color: "white" }) // 바닥 색상
 );
 
 // 2. 회전 조정
 // 기본 평면은 XY 평면
+// Math.PI: 라디안 단위로 180도 의미
 // 바닥처럼 보이도록 X축 -90도 회전
-floorMesh.rotation.x = -Math.PI;
+// X축을 잡고 시계 반대 방향으로 돌리면 앞면에 있던 바닥이 위(하늘)를 향하게 됨
+floorMesh.rotation.x = -Math.PI / 2;
 
 // 3. 그림자 설정 : 다른 오브젝트의 그림자를 받을 수 있도록 설정
 floorMesh.receiveShadow = true;
@@ -158,6 +161,33 @@ function draw() {
   window.requestAnimationFrame(draw);
 }
 
+/* ===============================
+    ======= 이벤트 함수 =======
+=============================== */
+// /* 스크롤 위치를 계산하여 현재 섹션에 맞는 집(House)으로 카메라를 이동 */
+let currentSection = 0; // 현재 보고 있는 섹션(화면 구간) 번호
+
+function setSection() {
+  // 현재 스크롤 위치를 창 높이로 나누어 몇 번째 섹션인지 계산 (반올림)
+  const newSection = Math.round(window.scrollY / window.innerHeight);
+
+  // 섹션이 바뀌었을 때만 실행 (중복 애니메이션 방지)
+  if (currentSection !== newSection) {
+    console.log("animation!!");
+
+    // GSAP을 이용해 카메라 좌표(x, z)를 해당 섹션 집의 위치로 이동
+    gsap.to(camera.position, {
+      duration: 1, // 1초 동안 이동
+      x: houses[newSection].x, // 해당 섹션의 x 위치로 이동
+      z: houses[newSection].z + 5 // z는 살짝 뒤로 (카메라 거리 확보)
+    });
+
+    // 현재 섹션 업데이트
+    currentSection = newSection;
+  }
+}
+
+/* 창 크기 변경 시 카메라와 렌더러를 재설정하는 함수 */
 function setSize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -168,6 +198,7 @@ function setSize() {
 /* ===============================
     ======= 이벤트 =======
 =============================== */
+window.addEventListener("scroll", setSection);
 window.addEventListener("resize", setSize);
 
 draw();

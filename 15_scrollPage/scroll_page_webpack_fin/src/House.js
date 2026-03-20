@@ -1,22 +1,19 @@
 export class House {
-	constructor(info) {
-		this.x = info.x;
-		this.z = info.z;
+  constructor(info) {
+    this.x = info.x;
+    this.z = info.z;
 
-		this.height = info.height || 2;
+    this.height = info.height || 2;
 
-		info.gltfLoader.load(
-			info.modelSrc,
-			glb => {
-				glb.scene.traverse(child => {
-					if (child.isMesh) {
-						child.castShadow = true;
-					}
-				});
-				this.mesh = glb.scene.children[0];
-				this.mesh.position.set(this.x, this.height/2, this.z);
-				info.scene.add(this.mesh);
-			}
-		);
-	}
+    info.gltfLoader.load(info.modelSrc, (glb) => {
+      glb.scene.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+        }
+      });
+      this.mesh = glb.scene.children[0];
+      this.mesh.position.set(this.x, this.height / 2, this.z);
+      info.scene.add(this.mesh);
+    });
+  }
 }

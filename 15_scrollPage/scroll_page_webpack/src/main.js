@@ -1,6 +1,11 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { House } from "./House";
 
 /* 주제: 스크롤에 따라 움직이는 3D 페이지 */
+// 1. 기본 구조 만들기
+// 2. House 클래스 만들기
+// 3. 객체 배치하고 애니메이션 처리하기
 
 /* Renderer 만들기 : html에 캔버스 미리 만들기 */
 const canvas = document.querySelector("#three-canvas");
@@ -10,15 +15,17 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+renderer.shadowMap.enabled = true; // 그림자 사용 ON
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 부드러운 그림자 타입
 
 /* ===============================
-    ======= Scene 만들기 =======
+  ======= Scene 만들기 =======
 =============================== */
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("white");
 
 /* ===============================
-    ======= Camera 만들기 =======
+  ======= Camera 만들기 =======
 =============================== */
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -30,7 +37,7 @@ camera.position.set(-5, 2, 25);
 scene.add(camera);
 
 /* ===============================
-    ======= Light 만들기 =======
+  ======= Light 만들기 =======
 =============================== */
 
 // 1. 앰비언트 라이트 만들기
@@ -56,7 +63,7 @@ spotLight.shadow.camera.far = 200; // 그림자 카메라 원거리
 scene.add(spotLight);
 
 /* ===============================
-    ======= Mesh 만들기 =======
+  ======= Mesh 바닥 만들기 =======
 =============================== */
 
 // 1. 바닥 Mesh 생성 (floorMesh)
@@ -77,6 +84,67 @@ floorMesh.receiveShadow = true;
 
 // 4. 씬에 바닥 Mesh 추가
 scene.add(floorMesh);
+
+/* ===============================
+======= houses glb 불러오기 =======
+=============================== */
+// 1. 모델 로더 생성
+// GLTF(.glb/.gltf) 3D 모델 파일을 불러오는 로더
+const gltfLoader = new GLTFLoader();
+
+// 2. 하우스 모델 생성
+// gltfLoader를 사용해 .glb 모델을 불러와 씬에 배치
+const houses = [];
+houses.push(
+  new House({
+    gltfLoader,
+    scene,
+    modelSrc: "/models/house.glb",
+    x: -5,
+    z: 20,
+    height: 2
+  })
+);
+houses.push(
+  new House({
+    gltfLoader,
+    scene,
+    modelSrc: "/models/house.glb",
+    x: 7,
+    z: 10,
+    height: 2
+  })
+);
+houses.push(
+  new House({
+    gltfLoader,
+    scene,
+    modelSrc: "/models/house.glb",
+    x: -10,
+    z: 0,
+    height: 2
+  })
+);
+houses.push(
+  new House({
+    gltfLoader,
+    scene,
+    modelSrc: "/models/house.glb",
+    x: 10,
+    z: -10,
+    height: 2
+  })
+);
+houses.push(
+  new House({
+    gltfLoader,
+    scene,
+    modelSrc: "/models/house.glb",
+    x: -5,
+    z: -20,
+    height: 2
+  })
+);
 
 /* ===============================
     ======= 그리기 =======

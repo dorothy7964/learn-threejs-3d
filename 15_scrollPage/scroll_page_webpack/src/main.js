@@ -11,38 +11,76 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-/* Scene 만들기 */
+/* ===============================
+    ======= Scene 만들기 =======
+=============================== */
 const scene = new THREE.Scene();
+scene.background = new THREE.Color("white");
 
-/* Camera 만들기 */
+/* ===============================
+    ======= Camera 만들기 =======
+=============================== */
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
-camera.position.y = 1.5;
-camera.position.z = 4;
+camera.position.set(-5, 2, 25);
 scene.add(camera);
 
-/* Light 만들기 */
-const ambientLight = new THREE.AmbientLight("white", 0.5);
-scene.add(ambientLight);
+/* ===============================
+    ======= Light 만들기 =======
+=============================== */
 
-const directionalLight = new THREE.DirectionalLight("white", 1);
-directionalLight.position.x = 1;
-directionalLight.position.z = 2;
-scene.add(directionalLight);
+// 1. 앰비언트 라이트 만들기
+// 씬 전체를 은은하게 밝히는 기본 조명
+// 그림자 없음, 방향성 없음
+const ambientLight = new THREE.AmbientLight("white", 2); // 조명 색상, 조명 강도
+scene.add(ambientLight); // 씬에 추가
 
-/* Mesh 만들기 */
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshStandardMaterial({
-  color: "seagreen"
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+// 2. 스포트라이트 만들기
+// 특정 위치에서 한 방향으로 집중해서 비추는 빛
+// 그림자 가능
+const spotLight = new THREE.SpotLight("white", 10000); // 조명 색상, 조명 강도
+spotLight.position.set(0, 15, 100); // 빛 위치 지정
+spotLight.castShadow = true; // 그림자 활성화
 
-/* 그리기 */
+// 3. 그림자 세부 설정
+spotLight.shadow.mapSize.width = 1024; // 그림자 해상도 너비
+spotLight.shadow.mapSize.height = 1024; // 그림자 해상도 높이
+spotLight.shadow.camera.near = 1; // 그림자 카메라 근거리
+spotLight.shadow.camera.far = 200; // 그림자 카메라 원거리
+
+// 4. 씬에 스포트라이트 추가
+scene.add(spotLight);
+
+/* ===============================
+    ======= Mesh 만들기 =======
+=============================== */
+
+// 1. 바닥 Mesh 생성 (floorMesh)
+// PlaneGeometry: 평면 지오메트리 생성
+// MeshStandardMaterial: 표준 재질 사용, 빛에 반응
+const floorMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(100, 100), // 가로 100, 세로 100 평면
+  new THREE.MeshStandardMaterial({ color: "red" }) // 바닥 색상
+);
+
+// 2. 회전 조정
+// 기본 평면은 XY 평면
+// 바닥처럼 보이도록 X축 -90도 회전
+floorMesh.rotation.x = -Math.PI;
+
+// 3. 그림자 설정 : 다른 오브젝트의 그림자를 받을 수 있도록 설정
+floorMesh.receiveShadow = true;
+
+// 4. 씬에 바닥 Mesh 추가
+scene.add(floorMesh);
+
+/* ===============================
+    ======= 그리기 =======
+=============================== */
 const clock = new THREE.Clock();
 
 function draw() {
@@ -59,7 +97,9 @@ function setSize() {
   renderer.render(scene, camera);
 }
 
-/* 이벤트 */
+/* ===============================
+    ======= 이벤트 =======
+=============================== */
 window.addEventListener("resize", setSize);
 
 draw();

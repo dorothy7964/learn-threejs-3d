@@ -1,0 +1,32 @@
+{
+  "name": "threejs-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "start": "webpack serve --progress"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "babel-loader": "^10.1.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^14.0.0",
+    "core-js": "^3.49.0",
+    "cross-env": "^10.1.0",
+    "html-webpack-plugin": "^5.6.6",
+    "source-map-loader": "^5.0.0",
+    "terser-webpack-plugin": "^5.4.0",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
+  },
+  "dependencies": {
+    "three": "^0.183.2"
+  }
+}

@@ -1,12 +1,13 @@
+import { worldContext, sceneConfig } from "./common";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 /* 주제: The Bridge 게임 만들기 */
 
 /* Renderer 만들기 : html에 캔버스 미리 만들기 */
-const canvas = document.querySelector("#three-canvas");
+// canvas는 common.js에서 생성
 const renderer = new THREE.WebGLRenderer({
-  canvas,
+  canvas: worldContext.canvas,
   antialias: true
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -15,7 +16,8 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 /* ===============================
 	======= Scene 만들기 =======
 =============================== */
-const scene = new THREE.Scene();
+// Scene은 common.js에서 생성
+worldContext.scene.background = new THREE.Color(sceneConfig.backgroundColor);
 
 /* ===============================
   ======= Camera 만들기 =======
@@ -28,18 +30,18 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.y = 1.5;
 camera.position.z = 4;
-scene.add(camera);
+worldContext.scene.add(camera);
 
 /* ===============================
   ======= Light 만들기 =======
 =============================== */
 const ambientLight = new THREE.AmbientLight("white", 0.5);
-scene.add(ambientLight);
+worldContext.scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight("white", 1);
 directionalLight.position.x = 1;
 directionalLight.position.z = 2;
-scene.add(directionalLight);
+worldContext.scene.add(directionalLight);
 
 /* ===============================
   ======= Controls 만들기 =======
@@ -55,7 +57,7 @@ const material = new THREE.MeshStandardMaterial({
   color: "seagreen"
 });
 const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+worldContext.scene.add(mesh);
 
 /* ===============================
   ======= 그리기 =======
@@ -66,7 +68,7 @@ function draw() {
 
   controls.update();
 
-  renderer.render(scene, camera);
+  renderer.render(worldContext.scene, camera);
   window.requestAnimationFrame(draw);
 }
 
@@ -77,7 +79,7 @@ function setSize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.render(scene, camera);
+  renderer.render(worldContext.scene, camera);
 }
 
 /* ===============================

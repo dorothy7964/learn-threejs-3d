@@ -108,3 +108,6 @@ dist
 
 # 다운로드 받은 glb 파일
 src/models/aircraft.glb
+
+# mp3
+src/sounds

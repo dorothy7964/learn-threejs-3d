@@ -257,3 +257,6 @@
     reademe.txt에 있는 패키지 설치 하기
 
 - main에서 시작
+- sounds : 유튜브 채널 무료 음향 효과
+  - Crash .mp3
+  - Wood Hit Metal Crash.mp3

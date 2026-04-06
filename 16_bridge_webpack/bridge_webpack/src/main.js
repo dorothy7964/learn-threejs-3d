@@ -12,6 +12,8 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+renderer.shadowMap.enabled = true; // 렌더러에서 그림자 기능 활성화
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 부드러운 그림자 타입 사용 (가장 자연스러운 그림자)
 
 /* ===============================
 	======= Scene 만들기 =======
@@ -35,13 +37,45 @@ worldContext.scene.add(camera);
 /* ===============================
   ======= Light 만들기 =======
 =============================== */
-const ambientLight = new THREE.AmbientLight("white", 0.5);
+// AmbientLight : 장면 전체를 균일하게 밝히는 기본 조명
+const ambientLight = new THREE.AmbientLight(sceneConfig.lightColor, 2);
 worldContext.scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight("white", 1);
-directionalLight.position.x = 1;
-directionalLight.position.z = 2;
-worldContext.scene.add(directionalLight);
+// SpotLight : 특정 방향으로 원뿔 형태로 빛 쏘는 조명
+
+const spotLight1 = new THREE.SpotLight(sceneConfig.lightColor, 10000);
+spotLight1.castShadow = true; // 그림자 생성 활성화
+spotLight1.shadow.mapSize.width = 2048; // 그림자 해상도 설정 (가로 2048 → 선명도 ↑)
+spotLight1.shadow.mapSize.height = 2048; // 그림자 해상도 설정 (세로 2048 → 선명도 ↑)
+const spotLight2 = spotLight1.clone();
+const spotLight3 = spotLight1.clone();
+const spotLight4 = spotLight1.clone();
+
+const spotLightDistance = 50; // 조명을 얼마나 떨어뜨릴지 거리 설정
+
+// 각 조명을 사각형 꼭짓점 위치에 배치
+spotLight1.position.set(
+  -spotLightDistance,
+  spotLightDistance,
+  spotLightDistance
+);
+spotLight2.position.set(
+  spotLightDistance,
+  spotLightDistance,
+  spotLightDistance
+);
+spotLight3.position.set(
+  -spotLightDistance,
+  spotLightDistance,
+  -spotLightDistance
+);
+spotLight4.position.set(
+  spotLightDistance,
+  spotLightDistance,
+  -spotLightDistance
+);
+
+worldContext.scene.add(spotLight1, spotLight2, spotLight3, spotLight4);
 
 /* ===============================
   ======= Controls 만들기 =======

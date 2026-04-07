@@ -1,6 +1,8 @@
 import { worldContext, sceneConfig } from "./common";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { Pillar } from "./Pillar";
+import { Floor } from "./Floor";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -30,8 +32,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.y = 1.5;
-camera.position.z = 4;
+camera.position.set(-4, 19, 14); // (x, y, z)
 worldContext.scene.add(camera);
 
 /* ===============================
@@ -86,12 +87,28 @@ controls.enableDamping = true;
 /* ===============================
   ======= Mesh 만들기 =======
 =============================== */
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshStandardMaterial({
-  color: "seagreen"
+// 바닥 불러오기
+const floor = new Floor({
+  name: "floor"
 });
-const mesh = new THREE.Mesh(geometry, material);
-worldContext.scene.add(mesh);
+
+// 기둥 불러오기
+const glassUnitSize = 1.2; // 유리판 크기
+
+// Three.js는 기본적으로 중앙 기준으로 생성된다
+const pillar1 = new Pillar({
+  name: "pillar",
+  x: 0,
+  y: 5.5, // 바닥 두께(0.5) + 기둥 절반(5) = 5.5
+  z: -glassUnitSize * 12 - glassUnitSize / 2
+});
+
+const pillar2 = new Pillar({
+  name: "pillar",
+  x: 0,
+  y: 5.5,
+  z: glassUnitSize * 12 + glassUnitSize / 2
+});
 
 /* ===============================
   ======= 그리기 =======

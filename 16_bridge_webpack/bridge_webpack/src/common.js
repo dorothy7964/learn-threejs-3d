@@ -30,7 +30,7 @@ export const sceneConfig = {
 export const geo = {
   floor: new BoxGeometry(200, 1, 200),
   pillar: new BoxGeometry(5, 10, 5),
-  bar: new BoxGeometry(0.1, 0.3, 1.2 * 21),
+  bar: new BoxGeometry(0.1, 0.3, 1.2 * 21), // 1.2 * 21 = 유리판 하나의 길이가 1.2이고, 그게 21개 이어진 전체 길이
   sideLight: new SphereGeometry(0.1, 6, 6),
   glass: new BoxGeometry(1.2, 0.05, 1.2)
 };

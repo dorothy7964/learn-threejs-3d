@@ -41,14 +41,14 @@ export const mat = {
   pillar: new MeshPhongMaterial({ color: sceneConfig.pillarColor }),
   bar: new MeshPhongMaterial({ color: sceneConfig.barColor }),
   sideLight: new MeshPhongMaterial({ color: sceneConfig.lightColor }),
-  glass1: new MeshPhongMaterial({
+  normalGlass: new MeshPhongMaterial({
     color: sceneConfig.glassColor,
     transparent: true,
     opacity: 0.1
   }),
-  glass2: new MeshPhongMaterial({
+  strongGlass: new MeshPhongMaterial({
     color: sceneConfig.glassColor,
     transparent: true,
-    opacity: 0.1
+    opacity: 0.5
   })
 };

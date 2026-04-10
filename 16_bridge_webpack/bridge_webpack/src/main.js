@@ -5,6 +5,7 @@ import { Pillar } from "./Pillar";
 import { Floor } from "./Floor";
 import { Bar } from "./Bar";
 import { SideLight } from "./SideLight";
+import { Glass } from "./Glass";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -17,7 +18,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 renderer.shadowMap.enabled = true; // 렌더러에서 그림자 기능 활성화
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 부드러운 그림자 타입 사용 (가장 자연스러운 그림자)
+renderer.shadowMap.type = THREE.PCFShadowMap; // 부드러운 그림자 타입 사용 (가장 자연스러운 그림자)
 
 /* ===============================
 	======= Scene 만들기 =======
@@ -90,7 +91,7 @@ controls.enableDamping = true;
   ======= Mesh 만들기 =======
 =============================== */
 
-// ===== 기본 설정 (직접 조절하는 값) =====
+// ===== 유리판 기본 설정 (직접 조절하는 값) =====
 const GLASS_UNIT_SIZE = 1.2; // 유리판 한 개 길이
 const GLASS_COUNT = 10; // 유리판 개수
 const PILLAR_SPACING_UNITS = 24; // 기둥 간 간격 (유리판 개수 기준)
@@ -158,12 +159,37 @@ const sideLights = [
   ...createSideLights(bar4.mesh)
 ];
 
+// 유리판
+// ===== 유리판 파생 값 (위 설정으로 자동 계산) =====
+const START_Z = -((GLASS_COUNT - 1) * GLASS_UNIT_SIZE * 2) / 2; // 유리들을 중앙 기준으로 정렬하기 위한 시작 위치
+
+for (let i = 0; i < GLASS_COUNT; i++) {
+  // 왼쪽이 일반유리(normal)인지 랜덤으로 결정 (50% 확률)
+  const isLeftNormal = Math.random() < 0.5;
+
+  const glass1 = new Glass({
+    name: "glass",
+    x: -1,
+    y: 10.5,
+    z: START_Z + i * GLASS_UNIT_SIZE * 2,
+    type: isLeftNormal ? "normal" : "strong"
+  });
+
+  const glass2 = new Glass({
+    name: "glass",
+    x: 1,
+    y: 10.5,
+    z: START_Z + i * GLASS_UNIT_SIZE * 2,
+    type: isLeftNormal ? "strong" : "normal"
+  });
+}
+
 /* ===============================
   ======= 그리기 =======
 =============================== */
-const clock = new THREE.Clock();
+const timer = new THREE.Timer();
 function draw() {
-  const delta = clock.getDelta();
+  const delta = timer.getDelta();
 
   controls.update();
 

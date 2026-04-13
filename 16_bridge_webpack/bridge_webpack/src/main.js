@@ -1,4 +1,4 @@
-import { worldContext, sceneConfig } from "./common";
+import { worldContext, sceneConfig, geo } from "./common";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Pillar } from "./Pillar";
@@ -6,6 +6,7 @@ import { Floor } from "./Floor";
 import { Bar } from "./Bar";
 import { SideLight } from "./SideLight";
 import { Glass } from "./Glass";
+import { Player } from "./Player";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -46,6 +47,7 @@ const ambientLight = new THREE.AmbientLight(sceneConfig.lightColor, 2);
 worldContext.scene.add(ambientLight);
 
 // SpotLight : 특정 방향으로 원뿔 형태로 빛 쏘는 조명
+const spotLightDistance = 30; // 조명을 얼마나 떨어뜨릴지 거리 설정
 
 const spotLight1 = new THREE.SpotLight(sceneConfig.lightColor, 10000);
 spotLight1.castShadow = true; // 그림자 생성 활성화
@@ -54,8 +56,6 @@ spotLight1.shadow.mapSize.height = 2048; // 그림자 해상도 설정 (세로 2
 const spotLight2 = spotLight1.clone();
 const spotLight3 = spotLight1.clone();
 const spotLight4 = spotLight1.clone();
-
-const spotLightDistance = 50; // 조명을 얼마나 떨어뜨릴지 거리 설정
 
 // 각 조명을 사각형 꼭짓점 위치에 배치
 spotLight1.position.set(
@@ -96,7 +96,7 @@ const GLASS_UNIT_SIZE = 1.2; // 유리판 한 개 길이
 const GLASS_COUNT = 10; // 유리판 개수
 const PILLAR_SPACING_UNITS = 24; // 기둥 간 간격 (유리판 개수 기준)
 
-// ===== 파생 값 (위 설정으로 자동 계산) =====
+// ===== 유리판 파생 값 (위 설정으로 자동 계산) =====
 const HALF_SPACING = PILLAR_SPACING_UNITS / 2; // 중심 기준 한쪽 기둥 위치
 const EDGE_OFFSET = GLASS_UNIT_SIZE / 2; // 유리판 경계에 맞추기 위한 보정값
 const BAR_LENGTH = GLASS_UNIT_SIZE * (GLASS_COUNT * 2 + 1); // 징검다리바 전체 길이
@@ -107,19 +107,26 @@ const floor = new Floor({
 });
 
 // 기둥
+// ===== 기둥 기본 설정 (직접 조절하는 값) =====
+// common 파일에 geo 값 조절하면 됨
+
+// ===== 기둥 파생 값 (위 설정으로 자동 계산) =====
+const PILLAR_HEIGHT = geo.pillar.parameters.height || 5;
+const FLOOR_HEIGHT = geo.floor.parameters.height || 1;
+const PILLAR_TOP_OFFSET_Y = FLOOR_HEIGHT / 2 + PILLAR_HEIGHT / 2; // 예) 바닥 두께 절반 (0.5) + 기둥 절반(5) = 5.5
 
 // Three.js는 기본적으로 중앙 기준으로 생성된다
 const pillar1 = new Pillar({
   name: "pillar",
   x: 0,
-  y: 5.5, // 바닥 두께(0.5) + 기둥 절반(5) = 5.5
+  y: PILLAR_TOP_OFFSET_Y,
   z: -GLASS_UNIT_SIZE * HALF_SPACING - EDGE_OFFSET
 });
 
 const pillar2 = new Pillar({
   name: "pillar",
   x: 0,
-  y: 5.5,
+  y: PILLAR_TOP_OFFSET_Y,
   z: GLASS_UNIT_SIZE * HALF_SPACING + EDGE_OFFSET
 });
 
@@ -184,12 +191,32 @@ for (let i = 0; i < GLASS_COUNT; i++) {
   });
 }
 
+// 플레이어
+// ===== 플레이어 기본 설정 (직접 조절하는 값) =====
+const PLAYER_HEIGHT = 11.8; // 플레이 크기 임의로 적어줌
+const PLAYER_OFFSET_Z = 1; // 플레이어 간격 조정
+
+// ===== 플레이어 파생 값 (위 설정으로 자동 계산) =====
+const PLAYER_Y = PLAYER_HEIGHT / 2 + PILLAR_HEIGHT / 2; // 기둥 절반 높이 + 플레이어 절반 높이
+
+const player = new Player({
+  name: "player",
+  x: pillar2.x, // 기둥 기준
+  y: PLAYER_Y,
+  z: Math.floor(pillar2.z) - PLAYER_OFFSET_Z,
+  rotationY: Math.PI // Math.PI = 180도
+});
+
 /* ===============================
   ======= 그리기 =======
 =============================== */
 const timer = new THREE.Timer();
 function draw() {
+  timer.update();
   const delta = timer.getDelta();
+
+  // 플레이어 애니메이션 업데이트 (시간 흐름 적용)
+  if (worldContext.mixer) worldContext.mixer.update(delta); // glb 로드 전 mixer 접근 방지
 
   controls.update();
 

@@ -21,7 +21,7 @@ export default function example() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
   renderer.shadowMap.enabled = true; // 그림자
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 그림자 부드럽게 적용
+  renderer.shadowMap.type = THREE.PCFShadowMap; // 그림자 부드럽게 적용
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();

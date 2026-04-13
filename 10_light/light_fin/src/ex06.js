@@ -18,7 +18,7 @@ export default function example() {
   renderer.shadowMap.enabled = true;
   // renderer.shadowMap.type = THREE.PCFShadowMap;
   // renderer.shadowMap.type = THREE.BasicShadowMap;
-  // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // renderer.shadowMap.type = THREE.PCFShadowMap;
 
   // Scene
   const scene = new THREE.Scene();

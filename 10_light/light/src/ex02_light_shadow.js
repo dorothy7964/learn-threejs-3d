@@ -19,11 +19,11 @@ export default function example() {
 
   // THREE.BasicShadowMap : 기본적인 그림자 맵, 속도는 가장 빠르지만 그림자가 뚜렷하지 않는다.
   // THREE.PCFShadowMap : Percentage Closer Filtering (PCF) 방식으로 렌더링. 그림자가 부드럽게 보이며, 기본 그림자 맵보다 디테일이 향상되지만 성능이 약간 저하 될 수 있다.
-  // THREE.PCFSoftShadowMap : PCF 방식에 추가적인 소프트 처리를 적용하여 그림자가 매우 부드럽게 표현되지만 성능이 더 많이 요구 된다.
+  // THREE.PCFShadowMap : PCF 방식에 추가적인 소프트 처리를 적용하여 그림자가 매우 부드럽게 표현되지만 성능이 더 많이 요구 된다.
 
   // renderer.shadowMap.type = THREE.BasicShadowMap;
   renderer.shadowMap.type = THREE.PCFShadowMap;
-  // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // renderer.shadowMap.type = THREE.PCFShadowMap;
 
   /* Scene 만들기 */
   const scene = new THREE.Scene();

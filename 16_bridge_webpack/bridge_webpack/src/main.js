@@ -11,9 +11,9 @@ import { Player } from "./Player";
 /* 주제: The Bridge 게임 만들기 */
 
 /* Renderer 만들기 : html에 캔버스 미리 만들기 */
-// canvas는 common.js에서 생성
+const canvas = document.querySelector("#three-canvas");
 const renderer = new THREE.WebGLRenderer({
-  canvas: worldContext.canvas,
+  canvas,
   antialias: true
 });
 renderer.setSize(window.innerWidth, window.innerHeight);

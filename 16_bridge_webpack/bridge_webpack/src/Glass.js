@@ -31,6 +31,9 @@ export class Glass extends Stuff {
     this.mesh.castShadow = true; // 그림자 생성
     this.mesh.receiveShadow = true; // 그림자 받기
 
+    // 객체 이름
+    this.mesh.name = this.name;
+
     // 씬에 추가
     worldContext.scene.add(this.mesh);
 

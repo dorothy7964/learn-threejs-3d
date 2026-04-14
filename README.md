@@ -1,3 +1,19 @@
+## Clock -> Timer (Clock deprecated)
+
+THREE.THREE.Clock: This module has been deprecated.
+<br/><br/>
+
+Clock
+
+- clock.getDelta(); // 바로 됨
+
+Timer
+
+```
+timer.update();   // 먼저 호출
+timer.getDelta(); // 그 다음
+```
+
 ## Local
 
 - http://localhost:8080/
@@ -272,3 +288,4 @@
   - 징검다리 사이드 조명 클래스 추가 : SideLight
   - 일반 유리, 강화 유리 설치 : Glass
   - 플레이어 추가 : Player
+- 건너기\_클릭 처리(Raycaster)

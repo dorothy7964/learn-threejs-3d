@@ -1,6 +1,9 @@
-import { Material, World } from "cannon-es";
+/* IMPORT/ThreeJs */
 import { BoxGeometry, MeshPhongMaterial, Scene, SphereGeometry } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
+/* IMPORT/Cannon */
+import { Material, World } from "cannon-es";
 
 // 실제 동작하는 엔진 데이터
 // 씬 + 물리 + 로더 상태 묶음

@@ -1,12 +1,14 @@
-import { worldContext, sceneConfig, geo } from "./common";
 import * as THREE from "three";
+import * as CANNON from "cannon-es";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Pillar } from "./Pillar";
-import { Floor } from "./Floor";
 import { Bar } from "./Bar";
-import { SideLight } from "./SideLight";
+import { Floor } from "./Floor";
 import { Glass } from "./Glass";
+import { Pillar } from "./Pillar";
 import { Player } from "./Player";
+import { SideLight } from "./SideLight";
+import { geo, sceneConfig, worldContext } from "./common";
+import { checkClickedObject } from "./logic/glass/checkClickedObject";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -86,6 +88,50 @@ worldContext.scene.add(spotLight1, spotLight2, spotLight3, spotLight4);
 =============================== */
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+
+/* ===============================
+	======= CANNON  =======
+=============================== */
+/* 물리 엔진, 중력 */
+worldContext.world.gravity.set(0, -10, 0); // 현실 중력 : -9.82 / 게임용 : -10 → 살짝 더 빠르게 떨어짐
+
+/* 물리 충돌 속성 설정 */
+// 기본 재질끼리 충돌
+const defaultContactMaterial = new CANNON.ContactMaterial(
+  worldContext.defaultMaterial,
+  worldContext.defaultMaterial,
+  {
+    friction: 0.3, // 미끄러움 (0~1, 낮을수록 잘 미끄러짐)
+    restitution: 0.2 // 튕김 정도 (0~1, 높을수록 잘 튕김)
+  }
+);
+
+// 유리 vs 기본 물체
+const glassDefaultContactMaterial = new CANNON.ContactMaterial(
+  worldContext.glassMaterial,
+  worldContext.defaultMaterial,
+  {
+    friction: 1, // 거의 안 미끄러짐 (딱 붙는 느낌)
+    restitution: 0 // 튕기지 않음
+  }
+);
+
+// 플레이어 vs 유리
+const playerGlassContactMaterial = new CANNON.ContactMaterial(
+  worldContext.playerMaterial,
+  worldContext.glassMaterial,
+  {
+    friction: 1, // 안정적으로 서있게
+    restitution: 0 // 점프 후 튕김 방지
+  }
+);
+
+// 기본 충돌 설정 (모든 기본 재질에 적용)
+worldContext.world.defaultContactMaterial = defaultContactMaterial;
+
+// 특정 재질 조합 충돌 설정 추가
+worldContext.world.addContactMaterial(glassDefaultContactMaterial);
+worldContext.world.addContactMaterial(playerGlassContactMaterial);
 
 /* ===============================
   ======= Mesh 만들기 =======
@@ -230,15 +276,6 @@ function checkIntersects() {
     // 가장 가까운 객체 하나만 처리하고 종료
     break;
   }
-}
-
-/* ===============================
-  === 클릭된 객체에 대한 처리 함수 ===
-=============================== */
-function checkClickedObject(mesh) {
-  // 유리 오브젝트가 아니면 무시
-  if (!mesh.name.includes("glass")) return;
-  console.log("📢 [main.js:242 유리판 클릭 시 노출]");
 }
 
 /* ===============================

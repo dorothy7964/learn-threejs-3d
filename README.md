@@ -289,3 +289,5 @@ timer.getDelta(); // 그 다음
   - 일반 유리, 강화 유리 설치 : Glass
   - 플레이어 추가 : Player
 - 건너기\_클릭 처리(Raycaster)
+- 물리 엔진 기본 설정
+  - npm i cannon-es 설치

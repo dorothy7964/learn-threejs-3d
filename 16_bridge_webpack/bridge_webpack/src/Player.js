@@ -6,6 +6,11 @@ export class Player extends Stuff {
   constructor(info) {
     super(info);
 
+    // (물리 계산용)
+
+    this.width = 0.5;
+    this.height = 0.5;
+    this.depth = 0.5;
     // 모델 로드 실행
     this.loadModel();
   }
@@ -36,6 +41,9 @@ export class Player extends Stuff {
 
       // ===== 애니메이션 설정 =====
       this.setupAnimation(glb.animations);
+
+      // ===== 물리 바디 생성 =====
+      this.setCannonBody();
     });
   }
 

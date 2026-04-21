@@ -17,9 +17,9 @@ export class Glass extends Stuff {
     this.mass = this.type === "normal" ? 1 : 0;
 
     // geometry에서 크기 정보 가져오기 (물리 계산용)
-    // this.width = this.geometry.parameters.width;
-    // this.height = this.geometry.parameters.height;
-    // this.depth = this.geometry.parameters.depth;
+    this.width = this.geometry.parameters.width;
+    this.height = this.geometry.parameters.height;
+    this.depth = this.geometry.parameters.depth;
 
     // Three.js 메쉬 생성
     this.mesh = new Mesh(this.geometry, this.material);

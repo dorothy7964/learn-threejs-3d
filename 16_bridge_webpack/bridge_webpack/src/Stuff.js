@@ -40,10 +40,10 @@ export class Stuff {
       material // 재질
     });
 
-    // Y축 기준 회전 적용
+    // Y축 기준 회전 적용 (초기 바라보는 방향 설정)
     this.cannonBody.quaternion.setFromAxisAngle(
-      new Vec3(0, 1, 0),
-      this.rotationY
+      new Vec3(0, 1, 0), // Y축 기준 (좌우 회전)
+      this.rotationY // 라디안 값 (ex: Math.PI = 180도)
     );
 
     // 물리 월드에 바디 추가

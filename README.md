@@ -291,3 +291,4 @@ timer.getDelta(); // 그 다음
 - 건너기\_클릭 처리(Raycaster)
 - 물리 엔진 기본 설정
   - npm i cannon-es 설치
+- 각 객체들에 물리 엔진

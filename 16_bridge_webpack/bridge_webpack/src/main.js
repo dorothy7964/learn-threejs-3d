@@ -136,9 +136,10 @@ worldContext.world.addContactMaterial(playerGlassContactMaterial);
 /* ===============================
   ======= Mesh 만들기 =======
 =============================== */
+const dynamicObjects = []; // 움직이는 물리 객체(기둥, 유리판, 플레이어)
 
 // ===== 유리판 기본 설정 (직접 조절하는 값) =====
-const GLASS_UNIT_SIZE = 1.2; // 유리판 한 개 길이
+const GLASS_UNIT_SIZE = 1.2; // 유리판 한 개 크기
 const GLASS_COUNT = 10; // 유리판 개수
 const PILLAR_SPACING_UNITS = 24; // 기둥 간 간격 (유리판 개수 기준)
 
@@ -175,6 +176,8 @@ const pillar2 = new Pillar({
   y: PILLAR_TOP_OFFSET_Y,
   z: GLASS_UNIT_SIZE * HALF_SPACING + EDGE_OFFSET
 });
+
+dynamicObjects.push(pillar1, pillar2); // 움직이는 물리 객체
 
 /* 징검다리 바 */
 const bar1 = new Bar({ name: "bar", x: -1.6, y: 10.3, z: 0 });
@@ -225,7 +228,8 @@ for (let i = 0; i < GLASS_COUNT; i++) {
     x: -1,
     y: 10.5,
     z: START_Z + i * GLASS_UNIT_SIZE * 2,
-    type: isLeftNormal ? "normal" : "strong"
+    type: isLeftNormal ? "normal" : "strong",
+    cannonMaterial: worldContext.glassMaterial
   });
 
   const glass2 = new Glass({
@@ -233,8 +237,11 @@ for (let i = 0; i < GLASS_COUNT; i++) {
     x: 1,
     y: 10.5,
     z: START_Z + i * GLASS_UNIT_SIZE * 2,
-    type: isLeftNormal ? "strong" : "normal"
+    type: isLeftNormal ? "strong" : "normal",
+    cannonMaterial: worldContext.glassMaterial
   });
+
+  dynamicObjects.push(glass1, glass2); // 움직이는 물리 객체
 }
 
 /* 플레이어 */
@@ -250,8 +257,12 @@ const player = new Player({
   x: pillar2.x, // 기둥 기준
   y: PLAYER_Y,
   z: Math.floor(pillar2.z) - PLAYER_OFFSET_Z,
-  rotationY: Math.PI // Math.PI = 180도
+  mass: 30,
+  rotationY: Math.PI, // Math.PI = 180도
+  cannonMaterial: worldContext.playerMaterial
 });
+
+dynamicObjects.push(player); // 움직이는 물리 객체
 
 /* 클릭 처리 (Raycaster) */
 const raycaster = new THREE.Raycaster();
@@ -288,6 +299,37 @@ function draw() {
 
   // 플레이어 애니메이션 업데이트 (시간 흐름 적용)
   if (worldContext.mixer) worldContext.mixer.update(delta); // glb 로드 전 mixer 접근 방지
+
+  /* 물리 엔진 프레임 업데이트 (Cannon.js step 실행) */
+  let cannonStepTime = 1 / 60; // 물리 시뮬레이션을 일정한 시간 간격(1/60초)으로 계산하기 위한 고정 스텝 값
+
+  // Cannon.js 물리 엔진을 한 프레임마다 업데이트
+  // (고정 스텝, 실제 프레임 간격 delta, 최대 보정 횟수 3)
+  worldContext.world.step(cannonStepTime, delta, 3);
+
+  /* 물리 바디 → 렌더 객체 위치/회전 동기화 함수 */
+  const syncTransform = (target, body) => {
+    if (!target) return; // 대상 객체 없으면 종료
+
+    target.position.copy(body.position); // 위치 동기화
+    target.quaternion.copy(body.quaternion); // 회전 동기화
+  };
+
+  /* 물체 위치를 물리 바디와 동기화 */
+  dynamicObjects.forEach((item) => {
+    const body = item.cannonBody;
+    if (!body) return; // 물리 바디 없는 객체는 제외
+
+    const isPlayer = item.name === "player"; // 플레이어 여부
+
+    // 기본 메쉬 동기화
+    syncTransform(item.mesh, body);
+
+    if (isPlayer) {
+      syncTransform(item.modelMesh, body); // 플레이어 모델은 실패 시에만 회전 적용
+      item.modelMesh.position.y += 0.15; // 플레이어 위치 조정
+    }
+  });
 
   controls.update();
 

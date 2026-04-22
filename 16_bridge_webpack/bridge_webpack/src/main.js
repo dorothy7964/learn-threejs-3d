@@ -219,6 +219,12 @@ const sideLights = [
 // ===== 유리판 파생 값 (위 설정으로 자동 계산) =====
 const START_Z = -((GLASS_COUNT - 1) * GLASS_UNIT_SIZE * 2) / 2; // 유리들을 중앙 기준으로 정렬하기 위한 시작 위치
 
+//유리판의 z 좌표들을 저장할 배열
+const glassZ = [];
+for (let i = 0; i < GLASS_COUNT; i++) {
+  glassZ.push(-(START_Z + i * GLASS_UNIT_SIZE * 2)); //  마이너스 부호 붙인 건 방향 뒤집어서 카메라 기준 앞으로 배치하려는 의도
+}
+
 for (let i = 0; i < GLASS_COUNT; i++) {
   // 왼쪽이 일반유리(normal)인지 랜덤으로 결정 (50% 확률)
   const isLeftNormal = Math.random() < 0.5;
@@ -227,7 +233,8 @@ for (let i = 0; i < GLASS_COUNT; i++) {
     name: `glass-${isLeftNormal ? "normal" : "strong"}`,
     x: -1,
     y: 10.5,
-    z: START_Z + i * GLASS_UNIT_SIZE * 2,
+    z: glassZ[i],
+    step: i + 1,
     type: isLeftNormal ? "normal" : "strong",
     cannonMaterial: worldContext.glassMaterial
   });
@@ -236,7 +243,8 @@ for (let i = 0; i < GLASS_COUNT; i++) {
     name: `glass-${isLeftNormal ? "strong" : "normal"}`,
     x: 1,
     y: 10.5,
-    z: START_Z + i * GLASS_UNIT_SIZE * 2,
+    z: glassZ[i],
+    step: i + 1,
     type: isLeftNormal ? "strong" : "normal",
     cannonMaterial: worldContext.glassMaterial
   });
@@ -278,8 +286,11 @@ function checkIntersects() {
 
   // 교차된 객체들을 순서대로 확인 (가까운 순)
   for (const item of intersects) {
-    // item.object → 실제로 맞은 3D 객체
-    // console.log("📢 [main.js:220]", item.object);
+    // 실제로 맞은 3D 객체
+    // console.log("📢 [main] object", item.object);
+
+    // 유리판 단계
+    // console.log("📢 [main] step", item.object.step);
 
     // 클릭된 객체에 대한 처리 함수 실행
     checkClickedObject(item.object);

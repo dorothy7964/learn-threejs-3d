@@ -2,13 +2,16 @@ import { Mesh } from "three";
 import { geo, mat, worldContext } from "./common";
 import { Stuff } from "./Stuff";
 
-// 기둥(Pillar) 클래스 (물리 + 3D 메쉬 함께 관리)
+// 유리판(Glass) 클래스 (물리 + 3D 메쉬 함께 관리)
 export class Glass extends Stuff {
   constructor(info) {
     super(info); // 부모(Stuff) 속성 초기화
 
     // 유리 타입 (일반, 강화)
     this.type = info.type;
+
+    // 유리판 단계
+    this.step = info.step;
 
     // 사용할 geometry, material 설정
     this.geometry = geo.glass;
@@ -31,8 +34,8 @@ export class Glass extends Stuff {
     this.mesh.castShadow = true; // 그림자 생성
     this.mesh.receiveShadow = true; // 그림자 받기
 
-    // 객체 이름
-    this.mesh.name = this.name;
+    this.mesh.name = this.name; // 객체 이름 식별용
+    this.mesh.step = this.step; // 클릭된 mesh에서 step 식별용
 
     // 씬에 추가
     worldContext.scene.add(this.mesh);

@@ -36,6 +36,12 @@ export class Glass extends Stuff {
 
     this.mesh.name = this.name; // 객체 이름 식별용
     this.mesh.step = this.step; // 클릭된 mesh에서 step 식별용
+    this.mesh.type = this.type; // 유리판 여부 등을
+
+    // mesh에도 식별 정보를 복사해서 클릭/충돌 시 사용하기
+    this.mesh.name = this.name; // 객체 이름 식별용
+    this.mesh.step = this.step; // 현재 유리판 단계 식별용
+    this.mesh.type = this.type; // 유리판 타입
 
     // 씬에 추가
     worldContext.scene.add(this.mesh);

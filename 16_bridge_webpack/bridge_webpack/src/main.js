@@ -8,7 +8,7 @@ import { Pillar } from "./Pillar";
 import { Player } from "./Player";
 import { SideLight } from "./SideLight";
 import { geo, sceneConfig, worldContext } from "./common";
-import { checkClickedObject } from "./logic/glass/checkClickedObject";
+import { canStepOnGlass, movePlayer } from "./logic/glass/checkClickedObject";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -286,18 +286,25 @@ function checkIntersects() {
 
   // 교차된 객체들을 순서대로 확인 (가까운 순)
   for (const item of intersects) {
-    // 실제로 맞은 3D 객체
-    // console.log("📢 [main] object", item.object);
+    // 실제로 맞은 3D 객체 :" item.object
+    // 유리판 단계 :  item.object.step
 
-    // 유리판 단계
-    // console.log("📢 [main] step", item.object.step);
+    // 클릭된 객체에 대한 처리 함수 실행 : 현재 유리판을 밟아야 할 순서인지 확인
+    const isValidStep = canStepOnGlass(item.object);
 
-    // 클릭된 객체에 대한 처리 함수 실행
-    checkClickedObject(item.object);
+    if (isValidStep) {
+      handleJump(item.object);
+    }
 
     // 가장 가까운 객체 하나만 처리하고 종료
     break;
   }
+}
+
+// 점프 처리 실행
+function handleJump(mesh) {
+  sceneConfig.step++; // 다음 스텝으로 진행
+  movePlayer(mesh, player, glassZ); // 플레이어 이동
 }
 
 /* ===============================

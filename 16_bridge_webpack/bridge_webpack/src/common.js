@@ -22,6 +22,8 @@ export const worldContext = {
 // 디자인 + 상태값
 export const sceneConfig = {
   step: 0,
+  fail: false, // 보통 유리판일 경우 떨어짐 = 실패 상태 여부
+  jumping: false, // 점프 중인지 여부 (중복 클릭 방지)
   backgroundColor: "#3e1322",
   lightColor: "#ffe9ac",
   lightOffColor: "#222",

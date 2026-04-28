@@ -8,7 +8,11 @@ import { Pillar } from "./Pillar";
 import { Player } from "./Player";
 import { SideLight } from "./SideLight";
 import { geo, sceneConfig, worldContext } from "./common";
-import { canStepOnGlass, movePlayer } from "./logic/glass/checkClickedObject";
+import {
+  canStepOnGlass,
+  movePlayer,
+  handleFail
+} from "./logic/glass/checkClickedObject";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -303,8 +307,19 @@ function checkIntersects() {
 
 // 점프 처리 실행
 function handleJump(mesh) {
+  sceneConfig.jumping = true;
   sceneConfig.step++; // 다음 스텝으로 진행
   movePlayer(mesh, player, glassZ); // 플레이어 이동
+
+  // 일반 유리 → 실패 처리
+  if (mesh.type === "normal") {
+    handleFail();
+  }
+
+  // 일정 시간 후 점프 상태 해제
+  setTimeout(() => {
+    sceneConfig.jumping = false;
+  }, 1000);
 }
 
 /* ===============================
@@ -326,11 +341,15 @@ function draw() {
   worldContext.world.step(cannonStepTime, delta, 3);
 
   /* 물리 바디 → 렌더 객체 위치/회전 동기화 함수 */
-  const syncTransform = (target, body) => {
+  const syncTransform = (target, body, applyRotation = false) => {
     if (!target) return; // 대상 객체 없으면 종료
 
     target.position.copy(body.position); // 위치 동기화
-    target.quaternion.copy(body.quaternion); // 회전 동기화
+
+    if (applyRotation) {
+      // 일반 유리 밟을 경우 캐릭터 회전 적용
+      target.quaternion.copy(body.quaternion); // 회전 동기화
+    }
   };
 
   /* 물체 위치를 물리 바디와 동기화 */
@@ -344,7 +363,7 @@ function draw() {
     syncTransform(item.mesh, body);
 
     if (isPlayer) {
-      syncTransform(item.modelMesh, body); // 플레이어 모델은 실패 시에만 회전 적용
+      syncTransform(item.modelMesh, body, sceneConfig.fail); // 플레이어 모델은 실패 시에만 회전 적용
       item.modelMesh.position.y += 0.15; // 플레이어 위치 조정
     }
   });

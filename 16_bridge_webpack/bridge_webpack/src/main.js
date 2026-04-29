@@ -11,7 +11,8 @@ import { geo, sceneConfig, worldContext } from "./common";
 import {
   canStepOnGlass,
   movePlayer,
-  handleFail
+  handleFail,
+  playJumpAnimation
 } from "./logic/glass/checkClickedObject";
 
 /* 주제: The Bridge 게임 만들기 */
@@ -307,13 +308,15 @@ function checkIntersects() {
 
 // 점프 처리 실행
 function handleJump(mesh) {
+  playJumpAnimation(player.actions); // 점프 애니메이션 실행
+
   sceneConfig.jumping = true;
   sceneConfig.step++; // 다음 스텝으로 진행
   movePlayer(mesh, player, glassZ); // 플레이어 이동
 
   // 일반 유리 → 실패 처리
   if (mesh.type === "normal") {
-    handleFail();
+    handleFail(player.actions);
   }
 
   // 일정 시간 후 점프 상태 해제

@@ -316,7 +316,7 @@ function handleJump(mesh) {
 
   // 일반 유리 → 실패 처리
   if (mesh.type === "normal") {
-    handleFail(player.actions);
+    handleFail(player.actions, sideLights);
   }
 
   // 일정 시간 후 점프 상태 해제

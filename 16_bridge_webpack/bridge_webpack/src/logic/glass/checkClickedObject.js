@@ -15,7 +15,7 @@ export function canStepOnGlass(mesh) {
 }
 
 // 일반 유리 밟았을 때 실패 처리
-export function handleFail(actions) {
+export function handleFail(actions, sideLights) {
   // 잠시 후 떨어지도록 지연 처리
   setTimeout(() => {
     sceneConfig.fail = true; // 실패 상태 변경
@@ -23,6 +23,9 @@ export function handleFail(actions) {
     // 실패 애니메이션
     actions[0].stop();
     actions[1].play();
+
+    // 조명 끄기
+    sideLights.forEach((sideLight) => sideLight.turnOff());
   }, 700);
 }
 

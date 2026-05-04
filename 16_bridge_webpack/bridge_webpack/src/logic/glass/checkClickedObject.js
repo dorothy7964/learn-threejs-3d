@@ -45,6 +45,23 @@ export function movePlayer(mesh, player, glassZ) {
   });
 }
 
+// 클리어 처리, 마지막 점프 처리
+export function jumpFinal(player) {
+  // 도착 지점으로 이동
+  jumpFinal;
+  gsap.to(player.cannonBody.position, {
+    duration: 1,
+    x: 0,
+    z: -14
+  });
+
+  // 점프 연출
+  gsap.to(player.cannonBody.position, {
+    duration: 0.4,
+    y: 12
+  });
+}
+
 // 점프 애니메이션 실행
 export function playJumpAnimation(actions) {
   actions[2].stop(); // 시간을 0으로 초기화

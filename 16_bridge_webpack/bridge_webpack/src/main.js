@@ -1,5 +1,5 @@
-import * as THREE from "three";
 import * as CANNON from "cannon-es";
+import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Bar } from "./Bar";
 import { Floor } from "./Floor";
@@ -10,9 +10,10 @@ import { SideLight } from "./SideLight";
 import { geo, sceneConfig, worldContext } from "./common";
 import {
   canStepOnGlass,
-  movePlayer,
   handleFail,
-  playJumpAnimation
+  movePlayer,
+  playJumpAnimation,
+  jumpFinal
 } from "./logic/glass/checkClickedObject";
 
 /* 주제: The Bridge 게임 만들기 */
@@ -319,10 +320,29 @@ function handleJump(mesh) {
     handleFail(player.actions, sideLights);
   }
 
+  // 마지막 스텝 + 강화유리 → 클리어 처리
+  if (isClear(mesh)) {
+    handleClear(); // 게임 클리어 처리
+  }
+
   // 일정 시간 후 점프 상태 해제
   setTimeout(() => {
     sceneConfig.jumping = false;
   }, 1000);
+}
+
+// 클리어 조건 확인
+function isClear(mesh) {
+  return sceneConfig.step === GLASS_COUNT && mesh.type === "strong";
+}
+
+// 게임 클리어 처리
+function handleClear() {
+  setTimeout(() => {
+    // 마지막 점프
+    playJumpAnimation(player.actions);
+    jumpFinal(player);
+  }, 1500);
 }
 
 /* ===============================

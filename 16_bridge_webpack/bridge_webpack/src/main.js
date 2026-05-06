@@ -44,8 +44,16 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+const camera2 = camera.clone();
+
+// camera1
 camera.position.set(-4, 19, 14); // (x, y, z)
-worldContext.scene.add(camera);
+
+// camera2, 캐릭터 낙하 시 카메라를 아래에서 비추는 연출하기 위해 추가
+camera2.position.y = 0;
+camera2.lookAt(0, 1, 0);
+
+worldContext.scene.add(camera, camera2);
 
 /* ===============================
   ======= Light 만들기 =======
@@ -393,7 +401,22 @@ function draw() {
 
   controls.update();
 
-  renderer.render(worldContext.scene, camera);
+  // 리플레이 상태에 따라 다른 카메라를 렌더링
+  if (!sceneConfig.onReplay) {
+    // onReplay가 false면 메인 카메라 사용
+    renderer.render(worldContext.scene, camera);
+  } else {
+    // onReplay가 true면 카메라2 사용
+    renderer.render(worldContext.scene, camera2);
+
+    // 캐릭터 위치 초기화를 이용한 낙하 리플레이 연출
+    player.cannonBody.position.y = 9;
+
+    // 카메라2를 플레이어 위치에 맞춰 따라가도록 설정 (x, z 축 기준)
+    camera2.position.x = player.cannonBody.position.x;
+    camera2.position.z = player.cannonBody.position.z;
+  }
+
   window.requestAnimationFrame(draw);
 }
 

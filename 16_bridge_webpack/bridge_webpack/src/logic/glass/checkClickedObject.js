@@ -16,17 +16,39 @@ export function canStepOnGlass(mesh) {
 
 // 일반 유리 밟았을 때 실패 처리
 export function handleFail(actions, sideLights) {
-  // 잠시 후 떨어지도록 지연 처리
-  setTimeout(() => {
+  // 잠시 후 실패 상태로 전환 (낙하 연출 시작)
+  const timerId = setTimeout(() => {
     sceneConfig.fail = true; // 실패 상태 변경
 
-    // 실패 애니메이션
+    // 실패 애니메이션 실행
     actions[0].stop();
     actions[1].play();
 
-    // 조명 끄기
+    // 징검다리 조명 OFF
     sideLights.forEach((sideLight) => sideLight.turnOff());
+
+    // 리플레이(카메라 시점 전환) 실행
+    handleReplay();
+
+    clearTimeout(timerId);
   }, 700);
+}
+
+// 캐릭터 낙하 연출 + 카메라 시점 변경 후 초기화
+function handleReplay() {
+  const timerId2 = setTimeout(() => {
+    sceneConfig.onReplay = true; // 리플레이 모드 ON (카메라 아래 시점 전환)
+
+    // 리플레이 종료 (카메라 원래 시점 복귀)
+    const timerId3 = setTimeout(() => {
+      sceneConfig.onReplay = false;
+      clearTimeout(timerId3);
+    }, 3000);
+
+    clearTimeout(timerId2);
+  }, 2000);
+
+  return timerId2;
 }
 
 // 캐릭터 위로 점프 후 앞으로 이동

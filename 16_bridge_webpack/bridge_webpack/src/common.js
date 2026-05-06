@@ -21,16 +21,17 @@ export const worldContext = {
 
 // 디자인 + 상태값
 export const sceneConfig = {
-  step: 0,
-  fail: false, // 보통 유리판일 경우 떨어짐 = 실패 상태 여부
-  jumping: false, // 점프 중인지 여부 (중복 클릭 방지)
   backgroundColor: "#3e1322",
   lightColor: "#ffe9ac",
   lightOffColor: "#222",
   floorColor: "#111",
   pillarColor: "#071d28",
   barColor: "#441c1d",
-  glassColor: "#9fdfff"
+  glassColor: "#9fdfff",
+  step: 0,
+  fail: false, // 보통 유리판일 경우 떨어짐 = 실패 상태 여부
+  jumping: false, // 점프 중인지 여부 (중복 클릭 방지)
+  onReplay: false // 카메라 시점, 캐릭터 낙하 시 카메라를 아래에서 비추는 연출
 };
 
 // Geometry(모양)

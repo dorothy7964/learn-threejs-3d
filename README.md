@@ -308,3 +308,6 @@ timer.getDelta(); // 그 다음
 - 추가 카메라 설치
   - PerspectiveCamera, 사람 눈처럼 원근감 있게 보이게 해주는 카메라
   - 캐릭터 낙하 시 카메라를 아래에서 비추는 연출을 위해 카메라 추가 clone 하기
+- 사운드 추가
+  - 일반 유리: Crash.mp3
+  - 강화 유리: Wood Hit Metal Crash.mp3

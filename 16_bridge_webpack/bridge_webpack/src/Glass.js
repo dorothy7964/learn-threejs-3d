@@ -1,5 +1,5 @@
 import { Mesh } from "three";
-import { geo, mat, worldContext } from "./common";
+import { geo, mat, worldContext, sounds } from "./common";
 import { Stuff } from "./Stuff";
 
 // 유리판(Glass) 클래스 (물리 + 3D 메쉬 함께 관리)
@@ -48,5 +48,20 @@ export class Glass extends Stuff {
 
     // 물리 바디 생성 (cannon-es)
     this.setCannonBody();
+
+    // 유리 타입별 소리 적용
+    const sound = sounds[this.type];
+
+    // 생성된 cannonBody에 충돌 이벤트 등록
+    this.cannonBody.addEventListener("collide", playSound);
+
+    function playSound(e) {
+      // 충돌했을 때의 충격 세기 계산
+      const impact = e.contact.getImpactVelocityAlongNormal();
+      if (impact > 5) {
+        sound.currentTime = 0; // 연속 충돌 시 처음부터 다시 재생
+        sound.play(); // 충돌 사운드 재생
+      }
+    }
   }
 }

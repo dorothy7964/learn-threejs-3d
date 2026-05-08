@@ -2,19 +2,20 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Bar } from "./Bar";
+import { geo, sceneConfig, worldContext } from "./common";
 import { Floor } from "./Floor";
 import { Glass } from "./Glass";
-import { Pillar } from "./Pillar";
-import { Player } from "./Player";
-import { SideLight } from "./SideLight";
-import { geo, sceneConfig, worldContext } from "./common";
 import {
   canStepOnGlass,
   handleFail,
+  jumpFinal,
   movePlayer,
-  playJumpAnimation,
-  jumpFinal
+  playJumpAnimation
 } from "./logic/glass/checkClickedObject";
+import { Pillar } from "./Pillar";
+import { Player } from "./Player";
+import { PreventDragClick } from "./PreventDragClick";
+import { SideLight } from "./SideLight";
 
 /* 주제: The Bridge 게임 만들기 */
 
@@ -435,8 +436,13 @@ function setSize() {
 =============================== */
 window.addEventListener("resize", setSize);
 
+const preventDragClick = new PreventDragClick(canvas); // 드래그 후 클릭 방지 처리
 /* 클릭 처리 : 마우스 클릭 위치를 WebGL 좌표계(-1 ~ 1)로 변환 */
 canvas.addEventListener("click", (e) => {
+  // 드래그가 발생했다면 클릭 처리 중단
+  // (카메라 회전 후 유리판 클릭되는 현상 방지)
+  if (preventDragClick.mouseMoved) return;
+
   // 마우스 X 좌표를 0 ~ canvas 너비 → -1 ~ 1로 변환
   mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
 

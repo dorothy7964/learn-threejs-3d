@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import "./main.css";
+import { CreateScene } from "./CreateScene";
 
 /* 주제: 주제: 여러개의 캔버스 사용하기 */
 
@@ -17,6 +18,10 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 /* ===============================
 	======= Scene 만들기 =======
 =============================== */
+const sceneA = new CreateScene({
+  renderer, // 공용 renderer 전달
+  placeholder: ".canvas-placeholder.a" // Scene이 사용할 화면 영역 선택
+});
 
 /* ===============================
   ======= 그리기 =======
@@ -26,15 +31,11 @@ const clock = new THREE.Clock();
 function draw() {
   const delta = clock.getDelta();
 
-  renderer.render(scene, camera);
   window.requestAnimationFrame(draw);
 }
 
 function setSize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.render(scene, camera);
 }
 
 /* ===============================

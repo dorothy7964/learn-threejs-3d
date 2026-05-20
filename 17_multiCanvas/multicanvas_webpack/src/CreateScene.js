@@ -27,4 +27,32 @@ export class CreateScene {
 
     this.scene.add(this.camera);
   }
+
+  // 외부에서 전달받은 함수를 실행하는 메서드
+  set(func) {
+    func(); // main.js에서 넘겨준 함수 실행
+  }
+
+  render() {
+    const renderer = this.renderer;
+    const rect = this.elem.getBoundingClientRect(); // 현재 DOM 요소의 위치와 크기 정보 가져오기
+
+    // 화면 밖에 있으면 렌더링하지 않음
+    const isOffScreen =
+      rect.bottom < 0 ||
+      rect.top > renderer.domElement.clientHeight ||
+      rect.right < 0 ||
+      rect.left > renderer.domElement.clientWidth;
+
+    if (isOffScreen) return;
+
+    /* 화면에 보이는 영역 */
+    const canvasBottom = renderer.domElement.clientHeight - rect.bottom; // 화면 전체 높이 - 요소의 bottom 위치
+    renderer.setScissor(rect.left, canvasBottom, rect.width, rect.height); // 현재 DOM 영역만 렌더링되도록 영역 지정
+    renderer.setViewport(rect.left, canvasBottom, rect.width, rect.height); // 렌더링이 출력될 화면 영역 설정
+    renderer.setScissorTest(true); // setScissor로 지정한 영역만 렌더링하도록 활성화
+
+    // 현재 Scene을 Camera 시점으로 렌더링
+    renderer.render(this.scene, this.camera);
+  }
 }

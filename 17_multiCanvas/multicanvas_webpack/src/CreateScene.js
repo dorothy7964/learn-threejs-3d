@@ -49,6 +49,10 @@ export class CreateScene {
 
     if (isOffScreen) return;
 
+    /* 화면 크기에 맞춰 Camera 비율 업데이트 */
+    this.camera.aspect = rect.width / rect.height; // 화면(렌더링 영역) 크기에 맞게 카메라 비율(aspect) 다시 계산
+    this.camera.updateProjectionMatrix(); // 변경된 aspect 값을 카메라에 실제 반영
+
     /* 화면에 보이는 영역 */
     const canvasBottom = renderer.domElement.clientHeight - rect.bottom; // 화면 전체 높이 - 요소의 bottom 위치
     renderer.setScissor(rect.left, canvasBottom, rect.width, rect.height); // 현재 DOM 영역만 렌더링되도록 영역 지정

@@ -313,3 +313,28 @@ timer.getDelta(); // 그 다음
   - 강화 유리: Wood Hit Metal Crash.mp3
 - 드래그 클릭 방지
   - 유리판 위에서 카메라를 드래그한 뒤 손을 떼었을 때, 유리판 클릭으로 인식되지 않도록 처리
+
+17_multiCanvas
+
+    여러개의 Scene 동시에 사용하기
+
+    참고 : 17_multiCanvas/multicanvas_webpack/src/main.js 에서 시작
+
+    reademe.txt에 있는 패키지 설치 하기
+
+- getBoundingClientRect`를 반복 호출하는 주된 이유
+  - 스크롤 등 화면 변화에 따른 요소의 실시간 위치/크기를 얻기 위해
+- 단일 캔버스에서도 원하는 부분만 업데이트하기
+  - `setScissor()`로 렌더링할 영역을 자르고,
+  - `setViewport()`로 잘라낸 영역에 맞춰 렌더링되도록 설정
+- 변경된 종횡비가 카메라의 원근 투영 계산에 반영하기
+  - updateProjectionMatrix()
+  - 요소 크기 변화 등으로 씬 카메라의 종횡비(aspect ratio)를 업데이트한 후, 카메라의 올바른 투영(projection)을 위해 추가로 호출해야 하는 메서드
+
+18_ilbunidiary
+
+    3D 공간에서 움직이는 캐릭터
+
+    참고 : 18_ilbunidiary/src/main.js 에서 시작
+
+    reademe.txt에 있는 패키지 설치 하기

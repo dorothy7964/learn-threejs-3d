@@ -26,6 +26,9 @@ export class CreateScene {
     this.camera.position.z = cameraPosition.z;
 
     this.scene.add(this.camera);
+
+    // Scene 안에 들어가는 Mesh 객체들을 저장하기 위한 공간
+    this.meshes = [];
   }
 
   // 외부에서 전달받은 함수를 실행하는 메서드

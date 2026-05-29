@@ -1,9 +1,9 @@
 body {
-	overflow: hidden;
-	margin: 0;
+  overflow: hidden; /* 모바일 당겨서 새로고침 방지 */
+  margin: 0;
 }
 #three-canvas {
-	position: fixed;
-	left: 0;
-	top: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
 }

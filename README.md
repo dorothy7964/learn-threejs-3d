@@ -338,3 +338,12 @@ timer.getDelta(); // 그 다음
     참고 : 18_ilbunidiary/src/main.js 에서 시작
 
     reademe.txt에 있는 패키지 설치 하기
+
+```
+src/
+ ┣ core/         // three.js 기본 세팅 (scene, camera, renderer, lights)
+ ┣ world/        // 월드 오브젝트 (바닥, 집, 포인터, 이벤트 영역)
+ ┣ characters/   // 플레이어
+ ┣ systems/      // 시스템 로직 : 입력, 이동 등
+ ┗ main.js       // 전체 연결 및 게임 실행(animate loop)
+```

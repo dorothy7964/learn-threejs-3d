@@ -1,114 +1,43 @@
+import gsap from "gsap";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Player } from "./Player";
-import { House } from "./House";
-import gsap from "gsap";
+import { Player } from "./characters/Player";
+import { camera, cameraPosition } from "./core/camera";
+import "./core/lights";
+import { canvas, renderer } from "./core/renderer";
+import { scene } from "./core/scene";
+import { InputController } from "./systems/InputController";
+import { Floor } from "./world/Floor";
+import { House } from "./world/House";
+import { PointerMesh } from "./world/PointerMesh";
+import { SpotMesh } from "./world/SpotMesh";
 
-// Texture
-const textureLoader = new THREE.TextureLoader();
-const floorTexture = textureLoader.load("/images/grid.png");
-floorTexture.wrapS = THREE.RepeatWrapping;
-floorTexture.wrapT = THREE.RepeatWrapping;
-floorTexture.repeat.x = 10;
-floorTexture.repeat.y = 10;
+/* 전체 연결 + 게임 루프 */
 
-// Renderer
-const canvas = document.querySelector("#three-canvas");
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  antialias: true
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 그림자 가장자리를 부드럽게 처리
-
-// Scene
-const scene = new THREE.Scene();
-
-// Camera
-const camera = new THREE.OrthographicCamera(
-  -(window.innerWidth / window.innerHeight), // left
-  window.innerWidth / window.innerHeight, // right,
-  1, // top
-  -1, // bottom
-  -1000,
-  1000
-);
-
-const cameraPosition = new THREE.Vector3(1, 5, 5);
-camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
-camera.zoom = 0.2;
-camera.updateProjectionMatrix();
-scene.add(camera);
-
-// Light
-const ambientLight = new THREE.AmbientLight("white", 0.7);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight("white", 3);
-const directionalLightOriginPosition = new THREE.Vector3(1, 1, 1);
-directionalLight.position.x = directionalLightOriginPosition.x;
-directionalLight.position.y = directionalLightOriginPosition.y;
-directionalLight.position.z = directionalLightOriginPosition.z;
-directionalLight.castShadow = true;
-
-// mapSize 세팅으로 그림자 퀄리티 설정
-// (주의) 값이 클수록 그림자는 선명해지지만 성능 부담이 커짐
-directionalLight.shadow.mapSize.width = 2048;
-directionalLight.shadow.mapSize.height = 2048;
-
-// 그림자 범위
-directionalLight.shadow.camera.left = -100;
-directionalLight.shadow.camera.right = 100;
-directionalLight.shadow.camera.top = 100;
-directionalLight.shadow.camera.bottom = -100;
-directionalLight.shadow.camera.near = -100;
-directionalLight.shadow.camera.far = 100;
-scene.add(directionalLight);
-
-// Mesh
-const meshes = [];
-const floorMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(100, 100),
-  new THREE.MeshStandardMaterial({
-    map: floorTexture
-  })
-);
-floorMesh.name = "floor";
-floorMesh.rotation.x = -Math.PI / 2;
-floorMesh.receiveShadow = true;
-scene.add(floorMesh);
-meshes.push(floorMesh);
-
-const pointerMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(1, 1),
-  new THREE.MeshBasicMaterial({
-    color: "crimson",
-    transparent: true,
-    opacity: 0.5
-  })
-);
-pointerMesh.rotation.x = -Math.PI / 2;
-pointerMesh.position.y = 0.01;
-pointerMesh.receiveShadow = true;
-scene.add(pointerMesh);
-
-const spotMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(3, 3),
-  new THREE.MeshStandardMaterial({
-    color: "yellow",
-    transparent: true,
-    opacity: 0.5
-  })
-);
-spotMesh.position.set(5, 0.005, 5);
-spotMesh.rotation.x = -Math.PI / 2;
-spotMesh.receiveShadow = true;
-scene.add(spotMesh);
-
+// ===== 기본 세팅 =====
 const gltfLoader = new GLTFLoader();
+const raycaster = new THREE.Raycaster();
 
+const meshes = []; // raycast 대상들
+const mouse = new THREE.Vector2();
+const destination = new THREE.Vector3();
+
+// ===== Mesh =====
+const pointerMesh = new PointerMesh(scene);
+const spotMesh = new SpotMesh(scene, 5, 5);
+
+// ===== floor =====
+new Floor(scene, meshes);
+
+// ===== Player =====
+const player = new Player({
+  scene,
+  meshes,
+  gltfLoader,
+  modelSrc: "/models/ilbuni.glb"
+});
+
+// ===== House =====
 const house = new House({
   gltfLoader,
   scene,
@@ -118,177 +47,159 @@ const house = new House({
   z: 2
 });
 
-const player = new Player({
-  scene,
-  meshes,
-  gltfLoader,
-  modelSrc: "/models/ilbuni.glb"
+// ===== Input =====
+new InputController(canvas, (mouseData) => {
+  mouse.x = mouseData.x;
+  mouse.y = mouseData.y;
+
+  raycasting(); // 클릭, 드래그 시 raycasting 실행
 });
 
-const raycaster = new THREE.Raycaster();
-let mouse = new THREE.Vector2();
-let destinationPoint = new THREE.Vector3();
-let angle = 0;
-let isPressed = false; // 마우스를 누르고 있는 상태
+// ===== Raycast =====
+function raycasting() {
+  if (!player.modelMesh) return;
 
-// 그리기
-const clock = new THREE.Clock();
+  raycaster.setFromCamera(mouse, camera);
 
-function draw() {
-  const delta = clock.getDelta();
+  const hits = raycaster.intersectObjects(meshes);
 
-  if (player.mixer) player.mixer.update(delta);
+  if (hits.length > 0) {
+    destination.copy(hits[0].point);
 
-  // 모델 로딩 전 오류 방지 (lookAt 안전 처리) : 모델 로딩 전에 실행되는 오류를 막기 위한 체크
-  if (player.modelMesh) {
-    camera.lookAt(player.modelMesh.position);
+    destination.y = 0.3;
+
+    player.modelMesh.lookAt(destination); // 플레이어 방향 회전
+    player.moving = true;
+
+    pointerMesh.setPosition(destination); // 목적지 마커 이동
+  }
+}
+
+// ===== LOOP =====
+const timer = new THREE.Timer();
+
+function animate() {
+  timer.update();
+  const delta = timer.getDelta();
+
+  // animation mixer
+  if (player.mixer) {
+    player.mixer.update(delta);
   }
 
+  // 플레이어 존재 시
+  // 모델 로딩 전에 접근하면 오류가 발생하므로 존재 여부 체크
   if (player.modelMesh) {
-    if (isPressed) {
-      raycasting();
-    }
+    // 플레이어를 바라보도록 카메라 회전
+    camera.lookAt(player.modelMesh.position);
 
+    // ===============================
+    // 이동 상태
+    // ===============================
     if (player.moving) {
-      // 걸어가는 상태
-      angle = Math.atan2(
-        destinationPoint.z - player.modelMesh.position.z,
-        destinationPoint.x - player.modelMesh.position.x
+      // 목적지 방향 각도 계산
+      const angle = Math.atan2(
+        destination.z - player.modelMesh.position.z,
+        destination.x - player.modelMesh.position.x
       );
+
+      // X축 이동
       player.modelMesh.position.x += Math.cos(angle) * 0.05;
+
+      // Z축 이동
       player.modelMesh.position.z += Math.sin(angle) * 0.05;
 
+      // ===============================
+      // 카메라 추적
+      // 플레이어 위치 기준으로 카메라 이동
+      // ===============================
       camera.position.x = cameraPosition.x + player.modelMesh.position.x;
+
       camera.position.z = cameraPosition.z + player.modelMesh.position.z;
 
+      // ===============================
+      // 걷기 애니메이션
+      // ===============================
       player.actions[0].stop();
       player.actions[1].play();
 
+      // ===============================
+      // 목적지 도착 체크
+      // ===============================
       if (
-        Math.abs(destinationPoint.x - player.modelMesh.position.x) < 0.03 &&
-        Math.abs(destinationPoint.z - player.modelMesh.position.z) < 0.03
+        Math.abs(destination.x - player.modelMesh.position.x) < 0.03 &&
+        Math.abs(destination.z - player.modelMesh.position.z) < 0.03
       ) {
         player.moving = false;
+
         console.log("멈춤");
       }
 
+      // ===============================
+      // Spot 영역 진입 체크
+      // ===============================
       if (
-        Math.abs(spotMesh.position.x - player.modelMesh.position.x) < 1.5 &&
-        Math.abs(spotMesh.position.z - player.modelMesh.position.z) < 1.5
+        Math.abs(spotMesh.mesh.position.x - player.modelMesh.position.x) <
+          1.5 &&
+        Math.abs(spotMesh.mesh.position.z - player.modelMesh.position.z) < 1.5
       ) {
+        // 아직 집이 안 보이는 상태라면
         if (!house.visible) {
           console.log("나와");
+
           house.visible = true;
-          spotMesh.material.color.set("seagreen");
+
+          // Spot 색상 변경
+          spotMesh.setColor("seagreen");
+
+          // 집 등장 애니메이션
           gsap.to(house.modelMesh.position, {
             duration: 1,
             y: 1,
-            ease: "Bounce.easeOut"
+            ease: "bounce.out"
           });
+
+          // 카메라 내려오기
           gsap.to(camera.position, {
             duration: 1,
             y: 3
           });
         }
       } else if (house.visible) {
+        // ===============================
+        // Spot 영역 밖으로 나간 경우
+        // ===============================
         console.log("들어가");
+
         house.visible = false;
-        spotMesh.material.color.set("yellow");
+
+        // Spot 색상 원래대로
+        spotMesh.setColor("yellow");
+
+        // 집 내려가기
         gsap.to(house.modelMesh.position, {
           duration: 0.5,
           y: -1.3
         });
+
+        // 카메라 원래 위치 복귀
         gsap.to(camera.position, {
           duration: 1,
           y: 5
         });
       }
     } else {
-      // 서 있는 상태
+      // ===============================
+      // 가만히 서 있는 상태
+      // ===============================
       player.actions[1].stop();
       player.actions[0].play();
     }
   }
 
   renderer.render(scene, camera);
-  window.requestAnimationFrame(draw);
+
+  requestAnimationFrame(animate);
 }
 
-function checkIntersects() {
-  // raycaster.setFromCamera(mouse, camera); // draw 함수에서 실행 중임
-
-  const intersects = raycaster.intersectObjects(meshes);
-  for (const item of intersects) {
-    if (item.object.name === "floor") {
-      destinationPoint.x = item.point.x;
-      destinationPoint.y = 0.3;
-      destinationPoint.z = item.point.z;
-      player.modelMesh.lookAt(destinationPoint);
-
-      // console.log(item.point)
-
-      player.moving = true;
-
-      pointerMesh.position.x = destinationPoint.x;
-      pointerMesh.position.z = destinationPoint.z;
-    }
-    break;
-  }
-}
-
-function setSize() {
-  camera.left = -(window.innerWidth / window.innerHeight);
-  camera.right = window.innerWidth / window.innerHeight;
-  camera.top = 1;
-  camera.bottom = -1;
-
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.render(scene, camera);
-}
-
-// 이벤트
-window.addEventListener("resize", setSize);
-
-// 마우스 좌표를 three.js에 맞게 변환
-function calculateMousePosition(e) {
-  mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
-  mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
-}
-
-// 변환된 마우스 좌표를 이용해 래이캐스팅
-function raycasting() {
-  raycaster.setFromCamera(mouse, camera);
-  checkIntersects();
-}
-
-// 마우스 이벤트
-canvas.addEventListener("mousedown", (e) => {
-  isPressed = true;
-  calculateMousePosition(e);
-});
-canvas.addEventListener("mouseup", () => {
-  isPressed = false;
-});
-canvas.addEventListener("mousemove", (e) => {
-  // 마우스 클릭 + 드래그 상태
-  if (isPressed) {
-    calculateMousePosition(e);
-  }
-});
-
-// 터치 이벤트
-canvas.addEventListener("touchstart", (e) => {
-  isPressed = true;
-  calculateMousePosition(e.touches[0]);
-});
-canvas.addEventListener("touchend", () => {
-  isPressed = false;
-});
-canvas.addEventListener("touchmove", (e) => {
-  if (isPressed) {
-    calculateMousePosition(e.touches[0]);
-  }
-});
-
-draw();
+animate();

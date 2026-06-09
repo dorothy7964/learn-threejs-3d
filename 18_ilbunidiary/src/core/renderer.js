@@ -7,7 +7,7 @@ export const renderer = new THREE.WebGLRenderer({
   antialias: true
 });
 
-// 렌더 기본 세팅
+// 렌더 초기 세팅
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 

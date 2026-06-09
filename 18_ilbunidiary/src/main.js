@@ -202,4 +202,14 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
+function setSize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// 이벤트
+window.addEventListener("resize", setSize);
+
 animate();

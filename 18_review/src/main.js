@@ -1,16 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { renderer } from "./core/renderer";
 
 /* 복습: 3D 공간 움직이는 캐릭터 */
-
-// ===== Renderer =====
-const canvas = document.querySelector("#three-canvas");
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  antialias: true
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
 // ===== Scene =====
 const scene = new THREE.Scene();
@@ -53,15 +45,15 @@ const timer = new THREE.Timer();
 function draw() {
   const delta = timer.getDelta();
 
-  renderer.render(scene, camera);
+  renderer.render(scene, camera); // 장면을 카메라 시점으로 렌더링
   window.requestAnimationFrame(draw);
 }
 
 function setSize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.render(scene, camera);
+
+  renderer.setSize(window.innerWidth, window.innerHeight); // 브라우저 화면 리사이즈 대응
 }
 
 // 이벤트

@@ -1,21 +1,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { camera } from "./core/camera";
 import { renderer } from "./core/renderer";
+import { scene } from "./core/scene";
 
 /* 복습: 3D 공간 움직이는 캐릭터 */
-
-// ===== Scene =====
-const scene = new THREE.Scene();
-
-// ===== Camera =====
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.z = 4;
-scene.add(camera);
 
 // ===== Light =====
 const ambientLight = new THREE.AmbientLight("white", 0.5);

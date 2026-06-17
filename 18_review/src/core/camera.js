@@ -15,16 +15,7 @@ export const camera = new THREE.OrthographicCamera(
   1000 // far
 );
 
-// 카메라 위치 설정
-camera.position.copy(cameraPosition);
-console.log("📢 [camera.js:17]", camera.position);
-
-// 화면 확대/축소 비율
-camera.zoom = 0.2;
-
-// 변경된 zoom 값을 카메라에 반영
-// updateProjectionMatrix: 카메라 설정이 바뀌었을 때 그 변경사항을 실제 카메라에 적용하는 함수
-camera.updateProjectionMatrix();
-
-// 씬에 카메라 추가
-scene.add(camera);
+camera.position.copy(cameraPosition); // 카메라 위치 설정
+camera.zoom = 0.2; // 화면 확대/축소 비율
+camera.updateProjectionMatrix(); // 변경된 zoom 값을 카메라에 반영 // 변경된 zoom 값을 카메라에 반영
+scene.add(camera); // 씬에 카메라 추가

@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { camera } from "./core/camera";
 import { renderer } from "./core/renderer";
 import { scene } from "./core/scene";
+import { cameraControls } from "./systems/CameraControls.js";
 
 /* 복습: 3D 공간 움직이는 캐릭터 */
 
@@ -14,9 +15,6 @@ const directionalLight = new THREE.DirectionalLight("white", 1);
 directionalLight.position.x = 1;
 directionalLight.position.z = 2;
 scene.add(directionalLight);
-
-// ===== Controls =====
-new OrbitControls(camera, renderer.domElement); // 마우스를 이용해  3D 객체를 회전, 확대, 축소 가능
 
 /// ===== Messh =====
 const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // Segments가 적용된 박스
@@ -31,11 +29,12 @@ scene.add(mesh);
 // ===== LOOP =====
 const timer = new THREE.Timer();
 
-function draw() {
+function animate() {
   const delta = timer.getDelta();
 
-  renderer.render(scene, camera); // 장면을 카메라 시점으로 렌더링
-  window.requestAnimationFrame(draw);
+  // cameraControls.update(); // 1.상태 업데이트
+  renderer.render(scene, camera); // 2. 렌더링, 장면을 카메라 시점으로 렌더링
+  window.requestAnimationFrame(animate); // 3. 다음 프레임 예약
 }
 
 function setSize() {
@@ -48,4 +47,4 @@ function setSize() {
 // 이벤트
 window.addEventListener("resize", setSize);
 
-draw();
+animate();

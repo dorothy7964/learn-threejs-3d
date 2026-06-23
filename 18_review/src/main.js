@@ -1,20 +1,11 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { camera } from "./core/camera";
+import "./core/lights";
 import { renderer } from "./core/renderer";
 import { scene } from "./core/scene";
-import { cameraControls } from "./systems/CameraControls.js";
+import "./systems/CameraControls.js";
 
 /* 복습: 3D 공간 움직이는 캐릭터 */
-
-// ===== Light =====
-const ambientLight = new THREE.AmbientLight("white", 0.5);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight("white", 1);
-directionalLight.position.x = 1;
-directionalLight.position.z = 2;
-scene.add(directionalLight);
 
 /// ===== Messh =====
 const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // Segments가 적용된 박스

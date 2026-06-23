@@ -5,15 +5,7 @@ import { scene } from "./scene.js";
 export const cameraPosition = new THREE.Vector3(1, 5, 5); // Vector3는 3차원 좌표를 저장하는 객체
 
 // Orthographic Camera 생성
-// 원근감 없이 모든 객체를 동일한 크기로 표시
-export const camera = new THREE.OrthographicCamera(
-  -(window.innerWidth / window.innerHeight), // left
-  window.innerWidth / window.innerHeight, // right
-  1, // top
-  -1, // bottom
-  -1000, // near
-  1000 // far
-);
+export const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -1000, 1000);
 
 camera.position.copy(cameraPosition); // 카메라 위치 설정
 camera.zoom = 0.2; // 화면 확대/축소 비율

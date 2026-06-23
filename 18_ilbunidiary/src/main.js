@@ -203,7 +203,11 @@ function animate() {
 }
 
 function setSize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  const aspect = window.innerWidth / window.innerHeight;
+  camera.left = -aspect;
+  camera.right = aspect;
+  camera.top = 1;
+  camera.bottom = -1;
   camera.updateProjectionMatrix();
 
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -212,4 +216,5 @@ function setSize() {
 // 이벤트
 window.addEventListener("resize", setSize);
 
+setSize(); // 초기 설정
 animate();

@@ -4,18 +4,12 @@ import "./core/lights";
 import { renderer } from "./core/renderer";
 import { scene } from "./core/scene";
 import { cameraControls } from "./systems/CameraControls.js";
+import { Floor } from "./world/Floor";
 
 /* 복습: 3D 공간 움직이는 캐릭터 */
 
-/// ===== Messh =====
-const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // Segments가 적용된 박스
-const material = new THREE.MeshStandardMaterial({
-  color: "seagreen",
-  side: THREE.DoubleSide, // 객체의 표면이 양면에서 렌더링
-  wireframe: true // 표면이 실선으로만 표현
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+// ===== floor =====
+new Floor(scene);
 
 // ===== LOOP =====
 const timer = new THREE.Timer();
@@ -29,6 +23,8 @@ function animate() {
 }
 
 function setSize() {
+  // OrthographicCamera에는 camera.aspect가 적용되지 않는다.
+  // left, right, top, bottom을 직접 변경해야 한다.
   const aspect = window.innerWidth / window.innerHeight;
   camera.left = -aspect;
   camera.right = aspect;
